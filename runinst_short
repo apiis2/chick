@@ -1,0 +1,49 @@
+###Checking out / Installation of APIIS:
+cd      $HOME;
+export  DATABASE_STUFF=$HOME/database_stuff;
+cd      $DATABASE_STUFF;
+
+### Generating the environment variables in a terminal:
+
+export   APIIS_HOME=$DATABASE_STUFF/apiis;
+export   QS_HOME=$DATABASE_STUFF/qs;
+export   REFERENCE_HOME=$DATABASE_STUFF/reference;
+
+#---------------------------------------------------------------------------------------
+export PROJECT=chick;
+cd $DATABASE_STUFF/$PROJECT;
+export PROJECT_HOME=$DATABASE_STUFF/$PROJECT;
+sed  -i "s|localpath\s*=\s*".*">|localpath=\"$PROJECT_HOME/load\">|g" load/chick.xml;
+sed  -i "s|SYSTEM\s*".*">|SYSTEM \"$PROJECT_HOME/load/load.dtd\">|g" load/chick.xml;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 1;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 2;
+cd $HOME/database_stuff/chick/load;
+cat codes.add >>1/codes.ok;
+cat units.add >>1/units.ok;
+perl create_merkebook_sire_dam.pl;
+cd -;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 3;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 4;
+
+
+#-- modify cage-year to cage
+psql chick -U apiis_admin -c "update unit set closing_dt = current_date where ext_unit='cage-year';";
+psql chick -U apiis_admin -c "update unit set closing_dt = null where ext_unit='cage-year' and ext_id like '%2013'";
+psql chick -U apiis_admin -c "drop index uidx_pk_unit";
+psql chick -U apiis_admin -c "update unit set ext_id= regexp_replace(ext_id, ':::.*', '') where ext_unit='cage-year';";
+psql chick -U apiis_admin -c "update unit set ext_unit='cage' where ext_unit='cage-year'";
+psql chick -U apiis_admin -c "create unique index uidx_pk_unit on unit (ext_unit, ext_id) WHERE closing_dt IS NULL;";
+
+psql chick -U apiis_admin -c "update animal set exit_dt = current_date where date_part('year', birth_dt)<'2013' or birth_dt isnull";
+psql chick -U apiis_admin -c "create view entry_animal as select * from animal where exit_dt isnull";
+psql chick -U apiis_admin -c "create view v_active_animals_and_cages as select a.*, b.ext_unit, b.ext_id, b.opening_dt from entry_animal as a inner join entry_unit as b on a.db_cage=b.db_unit";
+
+psql chick -U apiis_admin -c "create index idx_cage on animal (db_cage, db_sex);";
+
+psql chick -U apiis_admin -f load/functions.sql;
+
+#-- check Väter pro Käfig
+psql chick -U apiis_admin -A -q -t -F ',' -c "select count(db_cage), db_cage, user_get_full_db_unit(db_cage) from (select user_get_ext_code(db_sex,'e'),db_cage from animal where user_get_ext_code(db_sex,'e')='1') as a group by db_cage having  count(db_cage)>1 order by count(db_cage) desc ;" >sire_per_cage.csv;
+
+firefox chick.local;
+

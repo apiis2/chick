@@ -1,0 +1,154 @@
+v=$1;
+
+### Generating the environment variables in a terminal:
+
+cd      $HOME;
+export  DATABASE_STUFF=$HOME/database_stuff;
+mkdir   $DATABASE_STUFF;
+cd      $DATABASE_STUFF;
+
+export   APIIS_HOME=$DATABASE_STUFF/apiis;
+export   QS_HOME=$DATABASE_STUFF/qs;
+export   REFERENCE_HOME=$DATABASE_STUFF/reference;
+source ~/.bashrc;
+
+#-- only of longversion
+if [ $v != 's' ] ; then
+    #-- save umask;
+    echo "Current umask=$(umask -S) -> set to u=rwx,g=rx, o=rx"; 
+    mask=$(umask);
+
+    #-- change umask to rwxr-xr-x for all downloaded files
+    umask 022;
+
+    sudo apt-get install cvs;
+    
+    ### Checking out / Installation of QS cvs :
+    cvs -d :pserver:anoncvs@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot login;
+
+    ### CVS password: cvs;
+    ###Checking out the apiis:
+    cd $DATABASE_STUFF;
+    cvs -d :pserver:anoncvs@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot checkout apiis;
+    sudo ~/apiis/bin/apiis-test-dependencies -i -d;
+    sudo chmod ugo+rwx $APIIS_HOME/tmp;
+
+    ###Checking out the qs:
+    cd $DATABASE_STUFF;
+    cvs -d :pserver:anoncvs@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot checkout qs;
+
+    ### Checking out the reference:
+    cd $DATABASE_STUFF;
+    cvs -d :pserver:anoncvs@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot checkout reference;
+    cvs -d :pserver:anoncvs@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot logout;
+
+
+    ### create a project directory GoPerl!
+    cd $HOME/database_stuff
+    cvs -d :pserver:lfgroene@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot login;
+    cvs -d :pserver:lfgroene@cvs-server.tzv.fal.de:/usr/local/lib/cvsroot checkout chick;
+
+fi
+#-- pwd will become the project directory
+cd chick;
+$QS_HOME/sub/Load/LoadProject -c -a -p chick;
+
+echo "";
+echo " change two paths in chick.xml";
+
+#-- restore umask
+umask $mask;
+
+#---------------------------------------------------------------------------------------
+export PROJECT=chick;
+cd $DATABASE_STUFF/$PROJECT;
+export PROJECT_HOME=$DATABASE_STUFF/$PROJECT;
+sed  -i "s|localpath\s*=\s*".*">|localpath=\"$PROJECT_HOME/load\">|g" load/chick.xml;
+sed  -i "s|SYSTEM\s*".*">|SYSTEM \"$PROJECT_HOME/load/load.dtd\">|g" load/chick.xml;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 1;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 2;
+cd $HOME/database_stuff/chick/load;
+cat codes.add >>1/codes.ok;
+cat units.add >>1/units.ok;
+perl create_merkebook_sire_dam.pl;
+cd -;
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 3;
+
+echo "set datestyle to 'german';" >/tmp/pg.sql_;
+cat /tmp/pg.sql_ load/3/pg.sql >/tmp/pg.sql;
+mv /tmp/pg.sql load/3/pg.sql;
+
+$QS_HOME/sub/Load/LoadProject -a -p chick -l 3 -s 4;
+
+#-- modify cage-year to cage
+#-- replace opening date with a real date
+psql chick -U apiis_admin -c "update unit set opening_dt='2013-06-03'";
+psql chick -U apiis_admin -c "update unit set closing_dt = current_date where ext_unit='cage-year';";
+psql chick -U apiis_admin -c "update unit set closing_dt = null where ext_unit='cage-year' and ext_id like '%2013'";
+psql chick -U apiis_admin -c "drop index uidx_pk_unit";
+psql chick -U apiis_admin -c "update unit set ext_id= regexp_replace(ext_id, ':::.*', '') where ext_unit='cage-year';";
+psql chick -U apiis_admin -c "update unit set ext_unit='cage' where ext_unit='cage-year'";
+psql chick -U apiis_admin -c "create unique index uidx_pk_unit on unit (ext_unit, ext_id) WHERE closing_dt IS NULL;";
+
+psql chick -U apiis_admin -c "update animal set exit_dt = current_date where date_part('year', birth_dt)<'2013' or birth_dt isnull";
+psql chick -U apiis_admin -c "create view entry_animal as select * from animal where exit_dt isnull";
+psql chick -U apiis_admin -c "create view v_active_animals_and_cages as select a.*, b.ext_unit, b.ext_id, b.opening_dt from entry_animal as a inner join entry_unit as b on a.db_cage=b.db_unit";
+
+psql chick -U apiis_admin -c "create index idx_cage on animal (db_cage, db_sex);";
+
+psql chick -U apiis_admin -f load/functions.sql;
+
+#-- check Väter pro Käfig
+psql chick -U apiis_admin -A -q -t -F ',' -c "select count(db_cage), db_cage, user_get_full_db_unit(db_cage) from (select user_get_ext_code(db_sex,'e'),db_cage from animal where user_get_ext_code(db_sex,'e')='1') as a group by db_cage having  count(db_cage)>1 order by count(db_cage) desc ;" >sire_per_cage.csv;
+
+#-- wird manuell gemacht
+#perl create_event_hatch_eggs.pl;
+
+#psql chick -U apiis_admin -c "update unit set closing_dt=current_date where db_unit in (select db_cage from animal a inner join entry_unit b on a.db_cage=b.db_unit where date_part('year', birth_dt)<2013 and db_cage not in (select db_cage from hatch_cage z inner join event z1 on z.db_event=z1.db_event where date_part('year', z1.event_dt)=2013)) ;";
+
+#-- check Väter pro Käfig
+#psql chick -U apiis_admin -c "select count(db_cage), db_cage, user_get_full_db_unit(db_cage) from (select user_get_ext_code(db_sex,'e'),db_cage from animal where user_get_ext_code(db_sex,'e')='1') as a group by db_cage having  count(db_cage)>1 order by count(db_cage) desc ;"
+
+# check auf Gleichheit des Geburtsjahres der Hähne, wenn mehere Hähne in einem Käfig sind
+#select user_get_ext_id_animal(b.db_animal), b.db_cage, date_part('year', birth_dt) from animal a inner join (select db_animal, user_get_ext_code(db_sex,'e'),db_cage from animal where user_get_ext_code(db_sex,'e')='1') as b on a.db_animal=b.db_animal and b.db_cage in (select b.db_cage from animal a inner join (select db_animal, user_get_ext_code(db_sex,'e'),db_cage from animal where user_get_ext_code(db_sex,'e')='1') as b on a.db_animal=b.db_animal group by b.db_cage having count(b.db_cage)>1 order by count(b.db_cage) desc)  order by db_cage;
+
+rm $PROJECT_HOME/etc/menu/*;
+cd $PROJECT_HOME/etc/menu/; 
+ln -s $PROJECT_HOME/etc/enter_data 0_Enter;
+ln -s $PROJECT_HOME/etc/edit_data 1_Edit;
+ln -s $PROJECT_HOME/etc/export_data 2_Export;
+ln -s $PROJECT_HOME/etc/generate_reports 3_Reports;
+ln -s $PROJECT_HOME/etc/admin 4_Admin;
+
+#-- Fehler generieren
+#psql chick -U apiis_admin -c "update animal set db_cage=null where guid=17583";
+
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS020304    ~/database_stuff/chick/load/data/DS01-04_GJ2013_2014.csv  off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_1      ~/database_stuff/chick/load/data/DS07_20_GJ2013_2013.csv  off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_1      ~/database_stuff/chick/load/data/DS07_40_GJ2013_2014.csv  off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS05        ~/database_stuff/chick/load/data/DS05_GJ2014.csv          off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS09        ~/database_stuff/chick/load/data/DS09_GJ2014_IH.csv       off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS10        ''                                                        off 2014;
+
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS06        ~/database_stuff/chick/load/data/DS06_GJ2014.csv            off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS020304    ~/database_stuff/chick/load/data/DS01-04_GJ2014_2015.csv    off 2015;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_2      ~/database_stuff/chick/load/data/DS07_20_40_GJ2014_2015.csv off 2015;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS05        ~/database_stuff/chick/load/data/DS05_GJ2015.csv            off 2015;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS10        ''                                                          off 2015;
+
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS06        ~/database_stuff/chick/load/data/DS06_GJ2015.csv            off 2015;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS020304    ~/database_stuff/chick/load/data/DS01-04_GJ2015_2016.csv    off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS08_1      ~/database_stuff/chick/load/data/DS08_33_GJ2015_2016.csv    off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS08_1      ~/database_stuff/chick/load/data/DS08_53_GJ2015_2016.csv    off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_1      ~/database_stuff/chick/load/data/DS07_40_GJ2015_2016.csv    off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS05        ~/database_stuff/chick/load/data/DS05_GJ2016.csv            off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS10        ''                                                          off 2016;
+
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS06        ~/database_stuff/chick/load/data/DS06_GJ2016.csv            off 2017;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS08_1      ~/database_stuff/chick/load/data/DS08_33_GJ2016_2017.csv    off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS08_1      ~/database_stuff/chick/load/data/DS08_53_GJ2016_2017.csv    off 2016;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_1      ~/database_stuff/chick/load/data/DS07_20_GJ2016_2017.csv    off 2014;
+#perl $DATABASE_STUFF/chick/lib/load.DS LO_DS07_1      ~/database_stuff/chick/load/data/DS07_40_GJ2016_2017.csv    off 2014;
+
+firefox chick.local;
+
