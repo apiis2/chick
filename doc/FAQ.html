@@ -1,0 +1,78 @@
+<html>
+<header>
+</header>
+<body style="background-color:#F3E2A9; font-family:Arial, sans-serif ; font-size:14px">
+<script src="/lib/toggletablerow.js"></script>
+
+<script>
+function show(id) {
+    if(document.getElementById) {
+        var mydiv = document.getElementById(id);
+        mydiv.style.display = (mydiv.style.display=='block'?'none':'block');
+    }
+}
+</script>
+
+
+<h1>FAQ</h1>
+
+
+
+<a onclick="javascript:show('ds05_hatch_cage');" href="javascript:void(0)">DS05: Solution hatch_cage</a><p>
+<div  style="display:none" id="ds05_hatch_cage">
+    <table width="800" ><TR><td style="background-color:white" >
+<h4>Background-Information</h4>
+The eggs for the next generation are collected in cages. Multiple cages can be available for each line. The loadingstream DS01-04 defines from which cage eggs are collected for the next generation. 
+<p>
+    <img width="1000" src="/doc/DS05_hatch_cage_1.png">
+<p>
+The information stored in the database can be seen in the next view:
+<p>
+    <img width="1000" src="/doc/DS05_hatch_cage_2.png">
+<p>
+The loadingstream DS05 has the following structure
+<p>
+    <img width="1000" src="/doc/DS05_hatch_cage_3.png">
+<p>
+The information in table 'hatch_cage' is retrieved via the date of birth  and the concatenated columns C and D (concatenated to 'JH:::1'). With this information the cage with id 176 is found. The animals in there are the parents of animal with id '2243' in DS05. 
+<p>
+    <img width="1000" src="/doc/DS05_hatch_cage_4.png">
+<p>
+Now a new animal can be created. 
+
+<h4>No Parent-Cage found in table 'hatch_cage' => Solutions</h4>
+<p>
+    <img width="1000" src="/doc/DS05_hatch_cage_5.png">
+<p>
+
+<h4>1th Solution: Add the missing record in DS04</h4>
+<ul>
+<li>open CageBook for breed (LS) with birthyear of parents (2019) and look for 'Far hens'=stammenummer (1)</li>
+<li>If there are several cages with the same 'Far hens'-number choose one with counts of eggs.</li> 
+<li>take note the Cage number (176),  Breed (LS), 'Far hens' (1), 'Event date' (26.04.2019), Traits (37(35/28)</li>
+<li>Add a new record with this information in DS01-04</li>
+<li>reload DS01-04</li>
+<li>reload DS05</li>
+</ul>
+
+<h4>2nd Solution: Add the missing record via form</h4>
+<ul>
+<li>open CageBook for breed (LS) with birthyear of parents (2019) and look for 'Far hens'=stammenummer (1)</li>
+<li>If there are several cages with the same 'Far hens'-number choose one with counts of eggs. </li>
+<li>take note the Cage number (176),  Breed (LS), 'Far hens' (1), 'Event date' (26.04.2019), Traits (37(35/28)</li>
+<li>open Web-Frontend =&gt Edit =&gt Hatch Cage</li>
+<p>
+    <img width="500" src="/doc/DS05_hatch_cage_6.png">
+<p>
+<li>reload DS05</li>
+</ul>
+
+
+
+
+</td></TR>
+</table>
+</div>
+
+
+</body>

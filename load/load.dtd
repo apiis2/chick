@@ -1,0 +1,201 @@
+<!ELEMENT Load (General, Sourcefile+, AnimalNumberSystem?, LoadTable+) >
+<!ATTLIST Load
+>
+
+    <!ELEMENT General EMPTY >
+    <!ATTLIST General
+        projectname      CDATA   #REQUIRED
+        login            CDATA   ""
+        password         CDATA   ""
+        description      CDATA   ""
+        maxrow           CDATA   ""
+        storage          (memory|disk)   "disk"
+        debug            (0|1|2) "0"
+        create_apiis_xml (yes|no) "yes"
+    >
+
+    <!ELEMENT Sourcefile (SkipRow*, Column+) >
+    <!ATTLIST Sourcefile
+        filename        CDATA   #REQUIRED
+        delimiter       CDATA   #REQUIRED
+        skipfirstrows   CDATA   ""
+        debug           (0|1|2) "0"
+        charset         CDATA   ""
+        description     CDATA   ""
+    >
+    
+        <!ELEMENT SkipRow EMPTY >
+        <!ATTLIST SkipRow
+            pattern     CDATA   #REQUIRED
+        >
+    
+        <!ELEMENT Column (( ForeignKey | MasterKey | Animal | Code | Unit | Event | Other ), Wrong*, Modify*, Regex*, Concat?, Function?) >
+        <!ATTLIST Column
+            id           ID      #REQUIRED
+            position     CDATA    #REQUIRED
+            description  CDATA   ""
+        >
+
+            <!ELEMENT ForeignKey EMPTY >
+            <!ATTLIST ForeignKey
+                name    CDATA       #REQUIRED
+            >
+            
+            <!ELEMENT MasterKey ( MasterField+ ) >
+            <!ATTLIST MasterKey
+                tablename    CDATA       #REQUIRED
+            >
+            
+            <!ELEMENT Event EMPTY >
+            <!ATTLIST Event
+                name    CDATA       #REQUIRED
+            >
+            
+            <!ELEMENT Animal EMPTY >
+            <!ATTLIST Animal
+                extunit     CDATA    #REQUIRED
+	            onlyencode  (yes|no) #IMPLIED
+            >
+
+            <!ELEMENT Code EMPTY >
+            <!ATTLIST Code
+                class       CDATA    #REQUIRED
+            >
+            <!ELEMENT Unit EMPTY >
+            <!ATTLIST Unit
+                extunit     CDATA    #REQUIRED
+            >
+            <!ELEMENT Other EMPTY >
+            <!ATTLIST Other
+                type     (date|char|number)       "char"    
+                format   CDATA          ""
+            >
+            
+            <!ELEMENT Modify EMPTY >
+            <!ATTLIST Modify
+                runinstep       (1|2)   "1" 
+                modify          (uppercase|lowercase|cutleadzeros|zerotonull|commatodot|cutleadendspaces|cutleadspaces|cutendspaces)   #REQUIRED
+                description     CDATA   ""
+            >
+            <!ELEMENT Regex EMPTY >
+            <!ATTLIST Regex 
+                runinstep       (1|2)   "1"
+                regex           CDATA   #REQUIRED
+                description     CDATA   ""
+            >
+            <!ELEMENT Concat ( ConcatField+  ) >
+            <!ATTLIST Concat
+                runinstep       (1|2)   "1"
+                useconcatstring  (yes|no) "yes"
+                description     CDATA   ""
+            >
+            <!ELEMENT Wrong EMPTY >
+            <!ATTLIST Wrong
+                runinstep       (1|2)   "1"
+                wrong           CDATA   #REQUIRED
+                description     CDATA   ""
+            >
+
+            <!ELEMENT MasterField EMPTY >
+            <!ATTLIST MasterField
+                columnid        CDATA   #REQUIRED
+            >
+
+            <!ELEMENT ConcatField EMPTY >
+            <!ATTLIST ConcatField
+                content         CDATA   #REQUIRED
+                contenttype     (columnid|constant)   "columnid"
+            >
+
+<!ELEMENT AnimalNumberSystem (UniqueNumber*, NumberChannel*) >
+<!ATTLIST AnimalNumberSystem
+                countnumbers   (yes|no)   "yes"
+                pseudonumbers  (yes|no)   "no"
+>
+    <!ELEMENT UniqueNumber (ColumnId+) >
+    <!ATTLIST UniqueNumber
+        id                  CDATA       ""
+        set                 (subset|union) "union"
+    >
+        <!ELEMENT ColumnId EMPTY  >
+        <!ATTLIST ColumnId
+            columnid            CDATA   #REQUIRED
+            priority            CDATA   ""
+        >
+
+
+    <!ELEMENT   NumberChannel (NumberCircle?, AnimalNumber?, OpeningDate?, ClosingDate?) >
+    <!ATTLIST   NumberChannel
+                extunit     		CDATA   #REQUIRED 
+    >
+
+        <!ELEMENT NumberCircle (NumberPart+) >
+
+        <!ELEMENT AnimalNumber (NumberPart+) >
+
+        <!ELEMENT OpeningDate (Content+) >
+        
+        <!ELEMENT ClosingDate (Content+) >
+        
+        <!ELEMENT NumberPart EMPTY >
+        <!ATTLIST NumberPart
+            parttype        (column|constant)   "column"
+            value           CDATA               ""
+        >
+
+   <!ELEMENT Function (Parameter+) >
+   <!ATTLIST Function
+          function        CDATA   #REQUIRED
+          runinstep       (1|2)   "1"
+          description     CDATA   ""
+   >
+            <!ELEMENT Parameter EMPTY >
+            <!ATTLIST Parameter
+                    id                      ID      #REQUIRED
+                    contenttype             (columnid|constant|columnid_bak)   "columnid"
+                    value                   CDATA  #REQUIRED 
+            >
+
+            <!ELEMENT Content EMPTY >
+            <!ATTLIST Content
+                    priority                CDATA   ""
+                    contenttype             (columnid|constant|function)   "columnid"
+                    class                   CDATA   ""
+                    value                   CDATA   #REQUIRED
+            >
+
+<!ELEMENT LoadTable (DBRecord+, ConnectKeys+, DeleteDbRecords? ) >
+<!ATTLIST LoadTable
+        tablename               CDATA   #REQUIRED
+        connectdates            CDATA   ""
+>
+    <!-- DBRecord -->    
+    <!ELEMENT DBRecord (DBColumn+, DeleteDbRecords?) >
+    <!ATTLIST DBRecord
+    >
+        <!ELEMENT DBColumn (Content+, Function? ) >
+        <!ATTLIST DBColumn
+            name                CDATA   #REQUIRED
+            functionname        CDATA       ""
+            >
+
+
+    <!-- ConnectKeys  -->    
+    <!ELEMENT ConnectKeys (ConnectDBColumns+) >
+    <!ATTLIST ConnectKeys
+        main                    CDATA   #REQUIRED
+    >
+        <!ELEMENT ConnectDBColumns EMPTY >
+        <!ATTLIST ConnectDBColumns
+            name                    CDATA   #REQUIRED 
+        >
+
+    <!-- DeleteDbRecords  -->    
+    <!ELEMENT DeleteDbRecords (DBColumnNull*,Function?) >
+    <!ATTLIST DeleteDbRecords
+    >
+        <!ELEMENT DBColumnNull EMPTY >
+        <!ATTLIST DBColumnNull
+            name                    CDATA   #REQUIRED 
+        >
+

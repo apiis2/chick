@@ -1,0 +1,77 @@
+&DataParameters 
+   DataFile                     = '_breed_.dat' ,
+   ResultsDirectory             = "_breed__" ,
+   IgnoreParentalPedigreeErrors = .true.
+/
+
+# Datafile: File with data. full path required if not in directory
+# ResultsDirectory : Directory with results files or prefix on standard results files
+# IgnoreParentalPedigreeErrors: if .true. then parents not in pedigree will be inserted. Default is .false.
+# Recodefile : Filename of file with recoded id's. If not present recoded id's will not be written to file
+
+&PopulationHistory
+  PCI_ngen    = 10
+/
+
+# PCI_ngen : Number of generations included in the computation of pedigree completeness. Default=5
+
+# Optional commands. Only two of the three parameters should be specified
+# Ancestor : id of ancestor. 0 indicates all founders. Dafult = 0
+# Descendent : id of descendant. Ignored if 0. Dafault = 0
+# Group : timestep. Default = 0
+# Computes genetic contributions and average relationships between ancestor and descendant (or all descendants in timestep group)
+
+&RelationshipMatrix
+  Source    = 'pedigree'     ,
+  GFile     = '_null_'   ,
+  TimeSteps = 0
+/
+
+# RelationshipMAtrix
+# source should be pedigree or file
+# if source is file, then Gfile specifies the file to read
+# if source is pedigree, then Gfile specifies filename to write to
+# Timesteps indicates that animals born in latest Timesteps to write to file
+#           all inbreeding coefficients are written
+#           if =0 then the timesteps is decided from age of oldest parent
+
+# zuerste w_rel auf 0 setzen conservation
+# w_merit 0, 
+#conservation, -75, -25, -10
+#mendelian sampling in textfile
+&OCSParameters
+  nmatings        = 50,
+  w_merit          = 1.0,
+  w_relationship   = -75.0 ,
+/
+
+# OCSParameters
+nmatings : number of matings to select
+w_merit  : weight on genetic merit (estimated breeding values)
+w_relationship : weight on average relationship
+LimitMaleMatings : Males are used in multiplum. if 2 males can only be used 0,2,4,...,maxmating (as present in data)
+
+&AlgorithmParameters
+  generations                   = 10000 ,
+  popsize                       = 100 ,
+  n_offspring                   = 20 ,
+  restart_interval              = 500 ,
+  exchange_algorithm            = 250,
+  mutate_probability            = 0.005 ,
+  crossover_probability         = 0.2,
+  directed_mutation_probability = 0.01,
+  seed_rng                      = 0 
+/
+
+#AlgorithmParameters
+# generations : number of generations for the evaolutionary algorithm. Try with large values to ensure convergence
+
+
+&MatingOptions
+  MatingStrategy='mai' ,
+  RepeatedMatings=.true.
+/
+
+# MatingOptions
+# MatingStrategy : 'random' or 'mai'. 'mai' mimimises inbreeding conditional on optimal contributions. Default='random'
+# RepeatedMatings : if .true. then repeated matings between the same individuals are allows. if .false. then a male can only mate a female once. Default is .true.

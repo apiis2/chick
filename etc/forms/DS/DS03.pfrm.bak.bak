@@ -1,0 +1,2187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/form2.dtd"[  
+  <!ENTITY NavigationButtons_Fields SYSTEM "http://chick.local/etc/navigationbuttons.xml">
+  <!ENTITY ActionButtons_Fields     SYSTEM "http://chick.local/etc/actionbuttons.xml">
+  <!ENTITY StatusLine_Block         SYSTEM "http://chick.local/etc/statusbar.xml">
+  <!ENTITY DumpButton_Block         SYSTEM "http://chick.local/etc/dumpbutton_block.xml">
+  <!ENTITY StatusLine2_Block        SYSTEM "http://chick.local/etc/statusbar.xml">
+  <!ENTITY CallForm_Block           SYSTEM "http://chick.local/etc/callform_button_block.xml">
+]>
+<Form Name="F8">
+  <General Name="G177" StyleSheet="/etc/apiis.css" Description="__('Number of eggs incubated')"/>
+
+  <Block Name="B1781" Description="'Number of eggs incubated'">
+    <DataSource Name="DataSource_493" >
+      <none/>
+      <Parameter Name="Parameter1" Key="LO" Value="LO_DS020304p"/>
+    </DataSource>
+
+    <Label Name="L487" Content="__('Number of eggs incubated')">
+         <Position Column="0" Columnspan="3" Position="absolute" Row="0"/>
+         <Text FontSize="24px" TextDecoration="underline"/>
+         <Format PaddingBottom="10px"/>
+    </Label>
+    <Label Name="L487a" Content="__('Selected breed:')">
+         <Position Column="0" Columnspan="0-3" Position="absolute" Row="1"/>
+         <Text FontSize="24px"/>
+         <Format/>
+    </Label>
+    <Field Name="F_ext_breed">
+          <TextField Override="no" Size="1" />
+          <Position Column="1"  Columnspan="0-3" Position="absolute" Row="1"/>
+          <Miscellaneous Enabled="no"/>
+          <Text FontSize="24px" />
+          <Color BackGround="transparent"/>
+          <Format BorderColor="transparent"/>
+   </Field>
+
+    <Label Name="L6954" Content="__('Cage-ID')">
+      <Position Column="0" Position="absolute" Row="2"/>
+    </Label>
+    <Label Name="L6956" Content="__('Number of eggs incubated')">
+      <Position Column="1" Position="absolute" Row="2"/>
+    </Label>
+<!--  .................................................................... -->
+    <Field Name="db_cage_id0"  Check="notnull">
+      <DataSource Name="DS_id0">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 0 limit 1  "/>
+
+       <Parameter Name="P_id0"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="4" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id0">
+      <DataSource Name="DS_id0a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 0 limit 1)"/>
+
+       <Parameter Name="P_id0a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="4" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id1"  Check="notnull">
+      <DataSource Name="DS_id1">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 1 limit 1  "/>
+
+       <Parameter Name="P_id1"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="5" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id1">
+      <DataSource Name="DS_id1a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 1 limit 1)"/>
+
+       <Parameter Name="P_id1a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="5" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id2"  Check="notnull">
+      <DataSource Name="DS_id2">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 2 limit 1  "/>
+
+       <Parameter Name="P_id2"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="6" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id2">
+      <DataSource Name="DS_id2a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 2 limit 1)"/>
+
+       <Parameter Name="P_id2a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="6" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id3"  Check="notnull">
+      <DataSource Name="DS_id3">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 3 limit 1  "/>
+
+       <Parameter Name="P_id3"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="7" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id3">
+      <DataSource Name="DS_id3a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 3 limit 1)"/>
+
+       <Parameter Name="P_id3a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="7" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id4"  Check="notnull">
+      <DataSource Name="DS_id4">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 4 limit 1  "/>
+
+       <Parameter Name="P_id4"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="8" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id4">
+      <DataSource Name="DS_id4a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 4 limit 1)"/>
+
+       <Parameter Name="P_id4a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="8" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id5"  Check="notnull">
+      <DataSource Name="DS_id5">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 5 limit 1  "/>
+
+       <Parameter Name="P_id5"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="9" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id5">
+      <DataSource Name="DS_id5a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 5 limit 1)"/>
+
+       <Parameter Name="P_id5a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="9" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id6"  Check="notnull">
+      <DataSource Name="DS_id6">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 6 limit 1  "/>
+
+       <Parameter Name="P_id6"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="10" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id6">
+      <DataSource Name="DS_id6a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 6 limit 1)"/>
+
+       <Parameter Name="P_id6a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="10" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id7"  Check="notnull">
+      <DataSource Name="DS_id7">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 7 limit 1  "/>
+
+       <Parameter Name="P_id7"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="11" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id7">
+      <DataSource Name="DS_id7a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 7 limit 1)"/>
+
+       <Parameter Name="P_id7a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="11" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id8"  Check="notnull">
+      <DataSource Name="DS_id8">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 8 limit 1  "/>
+
+       <Parameter Name="P_id8"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="12" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id8">
+      <DataSource Name="DS_id8a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 8 limit 1)"/>
+
+       <Parameter Name="P_id8a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="12" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id9"  Check="notnull">
+      <DataSource Name="DS_id9">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 9 limit 1  "/>
+
+       <Parameter Name="P_id9"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="13" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id9">
+      <DataSource Name="DS_id9a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 9 limit 1)"/>
+
+       <Parameter Name="P_id9a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="13" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id10"  Check="notnull">
+      <DataSource Name="DS_id10">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 10 limit 1  "/>
+
+       <Parameter Name="P_id10"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="14" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id10">
+      <DataSource Name="DS_id10a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 10 limit 1)"/>
+
+       <Parameter Name="P_id10a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="14" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id11"  Check="notnull">
+      <DataSource Name="DS_id11">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 11 limit 1  "/>
+
+       <Parameter Name="P_id11"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="15" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id11">
+      <DataSource Name="DS_id11a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 11 limit 1)"/>
+
+       <Parameter Name="P_id11a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="15" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id12"  Check="notnull">
+      <DataSource Name="DS_id12">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 12 limit 1  "/>
+
+       <Parameter Name="P_id12"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="16" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id12">
+      <DataSource Name="DS_id12a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 12 limit 1)"/>
+
+       <Parameter Name="P_id12a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="16" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id13"  Check="notnull">
+      <DataSource Name="DS_id13">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 13 limit 1  "/>
+
+       <Parameter Name="P_id13"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="17" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id13">
+      <DataSource Name="DS_id13a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 13 limit 1)"/>
+
+       <Parameter Name="P_id13a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="17" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id14"  Check="notnull">
+      <DataSource Name="DS_id14">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 14 limit 1  "/>
+
+       <Parameter Name="P_id14"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="18" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id14">
+      <DataSource Name="DS_id14a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 14 limit 1)"/>
+
+       <Parameter Name="P_id14a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="18" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id15"  Check="notnull">
+      <DataSource Name="DS_id15">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 15 limit 1  "/>
+
+       <Parameter Name="P_id15"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="19" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id15">
+      <DataSource Name="DS_id15a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 15 limit 1)"/>
+
+       <Parameter Name="P_id15a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="19" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id16"  Check="notnull">
+      <DataSource Name="DS_id16">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 16 limit 1  "/>
+
+       <Parameter Name="P_id16"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="20" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id16">
+      <DataSource Name="DS_id16a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 16 limit 1)"/>
+
+       <Parameter Name="P_id16a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="20" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id17"  Check="notnull">
+      <DataSource Name="DS_id17">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 17 limit 1  "/>
+
+       <Parameter Name="P_id17"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="21" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id17">
+      <DataSource Name="DS_id17a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 17 limit 1)"/>
+
+       <Parameter Name="P_id17a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="21" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id18"  Check="notnull">
+      <DataSource Name="DS_id18">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 18 limit 1  "/>
+
+       <Parameter Name="P_id18"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="22" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id18">
+      <DataSource Name="DS_id18a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 18 limit 1)"/>
+
+       <Parameter Name="P_id18a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="22" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id19"  Check="notnull">
+      <DataSource Name="DS_id19">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 19 limit 1  "/>
+
+       <Parameter Name="P_id19"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="23" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id19">
+      <DataSource Name="DS_id19a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 19 limit 1)"/>
+
+       <Parameter Name="P_id19a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="23" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id20"  Check="notnull">
+      <DataSource Name="DS_id20">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 20 limit 1  "/>
+
+       <Parameter Name="P_id20"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="24" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id20">
+      <DataSource Name="DS_id20a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 20 limit 1)"/>
+
+       <Parameter Name="P_id20a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="24" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id21"  Check="notnull">
+      <DataSource Name="DS_id21">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 21 limit 1  "/>
+
+       <Parameter Name="P_id21"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="25" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id21">
+      <DataSource Name="DS_id21a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 21 limit 1)"/>
+
+       <Parameter Name="P_id21a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="25" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id22"  Check="notnull">
+      <DataSource Name="DS_id22">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 22 limit 1  "/>
+
+       <Parameter Name="P_id22"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="26" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id22">
+      <DataSource Name="DS_id22a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 22 limit 1)"/>
+
+       <Parameter Name="P_id22a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="26" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id23"  Check="notnull">
+      <DataSource Name="DS_id23">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 23 limit 1  "/>
+
+       <Parameter Name="P_id23"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="27" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id23">
+      <DataSource Name="DS_id23a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 23 limit 1)"/>
+
+       <Parameter Name="P_id23a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="27" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id24"  Check="notnull">
+      <DataSource Name="DS_id24">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 24 limit 1  "/>
+
+       <Parameter Name="P_id24"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="28" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id24">
+      <DataSource Name="DS_id24a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 24 limit 1)"/>
+
+       <Parameter Name="P_id24a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="28" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id25"  Check="notnull">
+      <DataSource Name="DS_id25">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 25 limit 1  "/>
+
+       <Parameter Name="P_id25"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="29" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id25">
+      <DataSource Name="DS_id25a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 25 limit 1)"/>
+
+       <Parameter Name="P_id25a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="29" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id26"  Check="notnull">
+      <DataSource Name="DS_id26">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 26 limit 1  "/>
+
+       <Parameter Name="P_id26"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="30" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id26">
+      <DataSource Name="DS_id26a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 26 limit 1)"/>
+
+       <Parameter Name="P_id26a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="30" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id27"  Check="notnull">
+      <DataSource Name="DS_id27">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 27 limit 1  "/>
+
+       <Parameter Name="P_id27"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="31" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id27">
+      <DataSource Name="DS_id27a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 27 limit 1)"/>
+
+       <Parameter Name="P_id27a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="31" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id28"  Check="notnull">
+      <DataSource Name="DS_id28">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 28 limit 1  "/>
+
+       <Parameter Name="P_id28"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="32" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id28">
+      <DataSource Name="DS_id28a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 28 limit 1)"/>
+
+       <Parameter Name="P_id28a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="32" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id29"  Check="notnull">
+      <DataSource Name="DS_id29">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 29 limit 1  "/>
+
+       <Parameter Name="P_id29"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="33" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id29">
+      <DataSource Name="DS_id29a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 29 limit 1)"/>
+
+       <Parameter Name="P_id29a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="33" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id30"  Check="notnull">
+      <DataSource Name="DS_id30">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 30 limit 1  "/>
+
+       <Parameter Name="P_id30"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="34" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id30">
+      <DataSource Name="DS_id30a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 30 limit 1)"/>
+
+       <Parameter Name="P_id30a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="34" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id31"  Check="notnull">
+      <DataSource Name="DS_id31">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 31 limit 1  "/>
+
+       <Parameter Name="P_id31"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="35" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id31">
+      <DataSource Name="DS_id31a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 31 limit 1)"/>
+
+       <Parameter Name="P_id31a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="35" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id32"  Check="notnull">
+      <DataSource Name="DS_id32">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 32 limit 1  "/>
+
+       <Parameter Name="P_id32"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="36" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id32">
+      <DataSource Name="DS_id32a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 32 limit 1)"/>
+
+       <Parameter Name="P_id32a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="36" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id33"  Check="notnull">
+      <DataSource Name="DS_id33">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 33 limit 1  "/>
+
+       <Parameter Name="P_id33"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="37" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id33">
+      <DataSource Name="DS_id33a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 33 limit 1)"/>
+
+       <Parameter Name="P_id33a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="37" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id34"  Check="notnull">
+      <DataSource Name="DS_id34">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 34 limit 1  "/>
+
+       <Parameter Name="P_id34"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="38" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id34">
+      <DataSource Name="DS_id34a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 34 limit 1)"/>
+
+       <Parameter Name="P_id34a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="38" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id35"  Check="notnull">
+      <DataSource Name="DS_id35">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 35 limit 1  "/>
+
+       <Parameter Name="P_id35"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="39" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id35">
+      <DataSource Name="DS_id35a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 35 limit 1)"/>
+
+       <Parameter Name="P_id35a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="39" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id36"  Check="notnull">
+      <DataSource Name="DS_id36">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 36 limit 1  "/>
+
+       <Parameter Name="P_id36"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="40" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id36">
+      <DataSource Name="DS_id36a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 36 limit 1)"/>
+
+       <Parameter Name="P_id36a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="40" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id37"  Check="notnull">
+      <DataSource Name="DS_id37">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 37 limit 1  "/>
+
+       <Parameter Name="P_id37"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="41" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id37">
+      <DataSource Name="DS_id37a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 37 limit 1)"/>
+
+       <Parameter Name="P_id37a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="41" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id38"  Check="notnull">
+      <DataSource Name="DS_id38">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 38 limit 1  "/>
+
+       <Parameter Name="P_id38"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="42" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id38">
+      <DataSource Name="DS_id38a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 38 limit 1)"/>
+
+       <Parameter Name="P_id38a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="42" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id39"  Check="notnull">
+      <DataSource Name="DS_id39">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 39 limit 1  "/>
+
+       <Parameter Name="P_id39"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="43" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id39">
+      <DataSource Name="DS_id39a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 39 limit 1)"/>
+
+       <Parameter Name="P_id39a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="43" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id40"  Check="notnull">
+      <DataSource Name="DS_id40">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 40 limit 1  "/>
+
+       <Parameter Name="P_id40"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="44" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id40">
+      <DataSource Name="DS_id40a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 40 limit 1)"/>
+
+       <Parameter Name="P_id40a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="44" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id41"  Check="notnull">
+      <DataSource Name="DS_id41">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 41 limit 1  "/>
+
+       <Parameter Name="P_id41"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="45" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id41">
+      <DataSource Name="DS_id41a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 41 limit 1)"/>
+
+       <Parameter Name="P_id41a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="45" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id42"  Check="notnull">
+      <DataSource Name="DS_id42">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 42 limit 1  "/>
+
+       <Parameter Name="P_id42"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="46" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id42">
+      <DataSource Name="DS_id42a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 42 limit 1)"/>
+
+       <Parameter Name="P_id42a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="46" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id43"  Check="notnull">
+      <DataSource Name="DS_id43">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 43 limit 1  "/>
+
+       <Parameter Name="P_id43"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="47" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id43">
+      <DataSource Name="DS_id43a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 43 limit 1)"/>
+
+       <Parameter Name="P_id43a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="47" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id44"  Check="notnull">
+      <DataSource Name="DS_id44">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 44 limit 1  "/>
+
+       <Parameter Name="P_id44"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="48" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id44">
+      <DataSource Name="DS_id44a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 44 limit 1)"/>
+
+       <Parameter Name="P_id44a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="48" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id45"  Check="notnull">
+      <DataSource Name="DS_id45">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 45 limit 1  "/>
+
+       <Parameter Name="P_id45"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="49" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id45">
+      <DataSource Name="DS_id45a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 45 limit 1)"/>
+
+       <Parameter Name="P_id45a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="49" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id46"  Check="notnull">
+      <DataSource Name="DS_id46">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 46 limit 1  "/>
+
+       <Parameter Name="P_id46"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="50" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id46">
+      <DataSource Name="DS_id46a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 46 limit 1)"/>
+
+       <Parameter Name="P_id46a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="50" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id47"  Check="notnull">
+      <DataSource Name="DS_id47">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 47 limit 1  "/>
+
+       <Parameter Name="P_id47"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="51" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id47">
+      <DataSource Name="DS_id47a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 47 limit 1)"/>
+
+       <Parameter Name="P_id47a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="51" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id48"  Check="notnull">
+      <DataSource Name="DS_id48">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 48 limit 1  "/>
+
+       <Parameter Name="P_id48"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="52" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id48">
+      <DataSource Name="DS_id48a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 48 limit 1)"/>
+
+       <Parameter Name="P_id48a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="52" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id49"  Check="notnull">
+      <DataSource Name="DS_id49">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 49 limit 1  "/>
+
+       <Parameter Name="P_id49"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="53" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id49">
+      <DataSource Name="DS_id49a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 49 limit 1)"/>
+
+       <Parameter Name="P_id49a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="53" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id50"  Check="notnull">
+      <DataSource Name="DS_id50">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 50 limit 1  "/>
+
+       <Parameter Name="P_id50"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="54" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id50">
+      <DataSource Name="DS_id50a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 50 limit 1)"/>
+
+       <Parameter Name="P_id50a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="54" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id51"  Check="notnull">
+      <DataSource Name="DS_id51">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 51 limit 1  "/>
+
+       <Parameter Name="P_id51"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="55" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id51">
+      <DataSource Name="DS_id51a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 51 limit 1)"/>
+
+       <Parameter Name="P_id51a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="55" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id52"  Check="notnull">
+      <DataSource Name="DS_id52">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 52 limit 1  "/>
+
+       <Parameter Name="P_id52"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="56" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id52">
+      <DataSource Name="DS_id52a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 52 limit 1)"/>
+
+       <Parameter Name="P_id52a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="56" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id53"  Check="notnull">
+      <DataSource Name="DS_id53">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 53 limit 1  "/>
+
+       <Parameter Name="P_id53"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="57" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id53">
+      <DataSource Name="DS_id53a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 53 limit 1)"/>
+
+       <Parameter Name="P_id53a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="57" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id54"  Check="notnull">
+      <DataSource Name="DS_id54">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 54 limit 1  "/>
+
+       <Parameter Name="P_id54"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="58" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id54">
+      <DataSource Name="DS_id54a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 54 limit 1)"/>
+
+       <Parameter Name="P_id54a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="58" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id55"  Check="notnull">
+      <DataSource Name="DS_id55">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 55 limit 1  "/>
+
+       <Parameter Name="P_id55"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="59" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id55">
+      <DataSource Name="DS_id55a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 55 limit 1)"/>
+
+       <Parameter Name="P_id55a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="59" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id56"  Check="notnull">
+      <DataSource Name="DS_id56">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 56 limit 1  "/>
+
+       <Parameter Name="P_id56"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="60" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id56">
+      <DataSource Name="DS_id56a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 56 limit 1)"/>
+
+       <Parameter Name="P_id56a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="60" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id57"  Check="notnull">
+      <DataSource Name="DS_id57">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 57 limit 1  "/>
+
+       <Parameter Name="P_id57"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="61" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id57">
+      <DataSource Name="DS_id57a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 57 limit 1)"/>
+
+       <Parameter Name="P_id57a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="61" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id58"  Check="notnull">
+      <DataSource Name="DS_id58">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 58 limit 1  "/>
+
+       <Parameter Name="P_id58"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="62" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id58">
+      <DataSource Name="DS_id58a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 58 limit 1)"/>
+
+       <Parameter Name="P_id58a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="62" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id59"  Check="notnull">
+      <DataSource Name="DS_id59">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 59 limit 1  "/>
+
+       <Parameter Name="P_id59"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="63" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id59">
+      <DataSource Name="DS_id59a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 59 limit 1)"/>
+
+       <Parameter Name="P_id59a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="63" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id60"  Check="notnull">
+      <DataSource Name="DS_id60">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 60 limit 1  "/>
+
+       <Parameter Name="P_id60"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="64" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id60">
+      <DataSource Name="DS_id60a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 60 limit 1)"/>
+
+       <Parameter Name="P_id60a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="64" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id61"  Check="notnull">
+      <DataSource Name="DS_id61">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 61 limit 1  "/>
+
+       <Parameter Name="P_id61"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="65" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id61">
+      <DataSource Name="DS_id61a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 61 limit 1)"/>
+
+       <Parameter Name="P_id61a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="65" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id62"  Check="notnull">
+      <DataSource Name="DS_id62">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 62 limit 1  "/>
+
+       <Parameter Name="P_id62"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="66" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id62">
+      <DataSource Name="DS_id62a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 62 limit 1)"/>
+
+       <Parameter Name="P_id62a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="66" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id63"  Check="notnull">
+      <DataSource Name="DS_id63">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 63 limit 1  "/>
+
+       <Parameter Name="P_id63"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="67" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id63">
+      <DataSource Name="DS_id63a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 63 limit 1)"/>
+
+       <Parameter Name="P_id63a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="67" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id64"  Check="notnull">
+      <DataSource Name="DS_id64">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 64 limit 1  "/>
+
+       <Parameter Name="P_id64"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="68" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id64">
+      <DataSource Name="DS_id64a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 64 limit 1)"/>
+
+       <Parameter Name="P_id64a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="68" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id65"  Check="notnull">
+      <DataSource Name="DS_id65">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 65 limit 1  "/>
+
+       <Parameter Name="P_id65"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="69" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id65">
+      <DataSource Name="DS_id65a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 65 limit 1)"/>
+
+       <Parameter Name="P_id65a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="69" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id66"  Check="notnull">
+      <DataSource Name="DS_id66">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 66 limit 1  "/>
+
+       <Parameter Name="P_id66"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="70" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id66">
+      <DataSource Name="DS_id66a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 66 limit 1)"/>
+
+       <Parameter Name="P_id66a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="70" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id67"  Check="notnull">
+      <DataSource Name="DS_id67">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 67 limit 1  "/>
+
+       <Parameter Name="P_id67"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="71" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id67">
+      <DataSource Name="DS_id67a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 67 limit 1)"/>
+
+       <Parameter Name="P_id67a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="71" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id68"  Check="notnull">
+      <DataSource Name="DS_id68">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 68 limit 1  "/>
+
+       <Parameter Name="P_id68"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="72" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id68">
+      <DataSource Name="DS_id68a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 68 limit 1)"/>
+
+       <Parameter Name="P_id68a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="72" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id69"  Check="notnull">
+      <DataSource Name="DS_id69">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 69 limit 1  "/>
+
+       <Parameter Name="P_id69"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="73" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id69">
+      <DataSource Name="DS_id69a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 69 limit 1)"/>
+
+       <Parameter Name="P_id69a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="73" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+<!--  .................................................................... -->
+    <Field Name="db_cage_id70"  Check="notnull">
+      <DataSource Name="DS_id70">
+       <Sql Statement="SELECT distinct db_cage as id,  ext_id as ext_id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) order by ext_id offset 70 limit 1  "/>
+
+       <Parameter Name="P_id70"  Key="placeholder" Value="F_ext_breed"/>
+
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Row="74" Column="0" Position="absolute" />
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="incubated_eggs_id70">
+      <DataSource Name="DS_id70a">
+       <Sql Statement="select incubated_eggs from hatch_cage where db_cage=(SELECT db_cage as id FROM v_active_animals_and_cages  WHERE ext_unit='cage' and db_breed=(select db_code from codes where class='BREED' and ext_code=?) group by db_cage, ext_id order by ext_id offset 70 limit 1)"/>
+
+       <Parameter Name="P_id70a"  Key="placeholder" Value="F_ext_breed"/>
+      </DataSource>
+       <TextField Override="no" Size="2" MaxLength="2"/>  
+       <Position Row="74" Column="1" Position="absolute" />
+       <Miscellaneous/>
+       <Text/>
+       <Color/>
+       <Format/>
+    </Field>
+
+
+
+
+
+
+
+    &NavigationButtons_Fields;
+    &StatusLine_Block;
+
+    <Color BackGround="#f0f0f0"/>
+    <Format BorderStyle="ridge" BorderColor="#f0f0f0" Padding="10px"/>
+  </Block>
+
+</Form>

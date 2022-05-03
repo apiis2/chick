@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Form PUBLIC "1" "http://chick.zwisss.net/etc/form2.dtd">
+<Form Name="FileUpload" >
+  <General Name="FileUpload_General" StyleSheet="/etc/apiis.css" Description="Parameter-FileUpload"/>
+
+  <Block Name="FileUpload_B1" Description="FileUpload" NavigationBar="no">
+    <DataSource Name="FileUpload_DS1"  Connect="no">
+        <none/>
+    </DataSource>
+
+    <Label Name="FileUpload_L1" Content="__('FileUpload (only INSERT)')">
+      <Position Column="0" Columnspan="1" Position="absolute" Row="0"/>
+      <Text FontSize="24px" TextDecoration="underline"/>
+      <Format PaddingBottom="10px"/>
+    </Label>
+
+    
+    <Label Name="FileUpload_L8" Content="__('Ladestroeme'):">
+      <Position Column="0" Position="absolute" Row="2"/>
+    </Label>
+    <Field Name="importfilter" Check="NotNull" >
+      <DataSource Name="DataSource_493a5">
+        <Sql Statement="
+                        select 'LO_DS020304' as key,'DS020304 - hatched chicks' as value
+                        union
+                        select 'LO_DS05' as key,'DS05 - Wingmerke' as value
+                        union
+                        select 'LO_DS06' as key,'DS06 - cage numbers' as value
+                        union
+                        select 'LO_DS07_1' as key,'DS07_1 - weighing body (20 OR 40)' as value
+                        union
+                        select 'LO_DS07_2' as key,'DS07_2 - weighing body (20 AND 40)' as value
+                        union
+                        select 'LO_DS08_1' as key,'DS08_1 - weighing eggs (33 OR 53)' as value
+                        union
+                        select 'LO_DS08_2' as key,'DS08_2 - weighing eggs (33 AND 53)' as value
+                        union
+                        select 'LO_DS09' as key,'DS09 - Initialize new breeds/animals' as value
+                        union
+                        select 'LO_DS10' as key,'DS10 - close generation' as value
+                        order by value
+                        "/>
+      </DataSource>
+      <ScrollingList Size="1"/>
+      <Position Column="1" Position="absolute" Row="2"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+    
+    <Label Name="FileUpload_L4" Content="__('Filename'):">
+      <Position Column="0" Position="absolute" Row="5"/>
+    </Label>
+    <Field Name="filename">
+      <FileField Size="50"/>
+      <Position Column="1" Position="absolute" Row="5"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+    
+    <Label Name="FileUpload_L4a" Content="__('only check?')">
+      <Position Column="0" Position="absolute" Row="3"/>
+    </Label>
+    <Field Name="onlycheck">
+      <CheckBox Checked="yes" />
+      <Position Column="1" Position="absolute" Row="3"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    
+    <Label Name="FileUpload_L4b" Content="__('Year of birth (only for historical data)'):">
+      <Position Column="0" Position="absolute" Row="4"/>
+    </Label>
+    <Field Name="history">
+      <TextField Override="no" Size="4"/>
+      <Position Column="1" Position="absolute" Row="4"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+   
+    <Field Name="action">
+      <TextField Size="50" Default="insert"/>
+      <Position Column="1" Position="absolute" Row="6"/>
+      <Miscellaneous Enabled="no"/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="Field_514">
+      <Button ButtonLabel="__('Upload file')" URL="/etc/enter_data/FileUpload.rpt" Command="do_exit"/>
+      <Position Column="1" Columnspan="2" Position="absolute" Row="7"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format MarginTop="20px"/>
+      
+    </Field>
+
+    <Color BackGround="#f0f0f0"/>
+    <Format BorderStyle="ridge" BorderColor="#f0f0f0" Padding="10px"/>
+
+  </Block>
+</Form>

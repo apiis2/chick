@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/form2.dtd">
+<Form Name="FORM_1129e">
+  <General Name="General_515" StyleSheet="/etc/apiis.css" Description="__('Export')"/>
+
+  <Block Name="Block_488" Description="" NavigationBar="no">
+    <DataSource Name="DataSource_493" >
+      <none/>
+    </DataSource>
+
+    <Label Name="FileUpload_L1" Content="__('Export')">
+      <Position Column="0" Columnspan="1" Position="absolute" Row="1"/>
+      <Text FontSize="24px" TextDecoration="underline"/>
+      <Format PaddingBottom="10px"/>
+    </Label>
+
+    <Label Name="FileUpload_L8" Content="__('Export as csv'):">
+      <Position Column="0" Position="absolute" Row="2"/>
+    </Label>
+    <Field Name="exportfilter" Check="NotNull" >
+      <DataSource Name="DataSource_493a5">
+        <Sql Statement="select 'cages.csv' as key, 'Cages' as label
+			            union 
+                        select 'pedigree' as key, 'Pedigree' as label
+                        union
+                        select 'poprep' as key, 'Poprep' as label
+                        union
+                        select 'blup_random' as key, 'BLUP-All Animals' as label
+			            union 
+			            select 'blup' as key, 'BLUP' as label"/>
+      </DataSource>
+      <ScrollingList Size="1" Default="Pedigree"/>
+      <Position Column="1" Position="absolute" Row="2"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+    
+    <Label Name="FileUpload_L81" Content="__('Breed'):">
+      <Position Column="0" Position="absolute" Row="3"/>
+    </Label>
+    <Field Name="breed" Check="NotNull" >
+      <DataSource Name="DataSource_493a5a">
+        <Sql Statement="select 'all breeds' as breed union select distinct  user_get_ext_code(db_breed, 's') as breed from hatch_cage a inner join animal b on a.db_cage=b.db_cage where db_animal in (select user_get_animal_from_cage(a.db_cage, '1', 0)) order by breed"/>
+      </DataSource>
+      <ScrollingList Size="1" Default="all breeds"/>
+      <Position Column="1" Position="absolute" Row="3"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+    
+    <Label Name="FileUpload_L82" Content="__('Year'):">
+      <Position Column="0" Position="absolute" Row="4"/>
+    </Label>
+    <Field Name="year" Check="NotNull" >
+      <DataSource Name="DataSource_493a5b">
+        <Sql Statement="select 'all years' as event union select distinct  date_part('year', b.event_dt)::text as event from hatch_cage a inner join event b on a.db_event=b.db_event order by event"/>
+      </DataSource>
+      <ScrollingList Size="1" Default="all years"/>
+      <Position Column="1" Position="absolute" Row="4"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+    
+    <Field Name="Field_514" FlowOrder="2">
+      <Button ButtonLabel="__('Export')" URL="/etc/reports/Export.rpt" Command="do_exit"/>
+      <Position Column="0-1" Position="absolute" Row="7"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format MarginTop="10px"/>
+      
+    </Field>
+
+    <Color BackGround="#f0f0f0"/>
+    <Format BorderStyle="ridge" BorderColor="#f0f0f0" Padding="10px"/>
+
+  </Block>
+</Form>

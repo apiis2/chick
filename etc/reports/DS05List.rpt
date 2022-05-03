@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/report.dtd">  
+<Report>
+  <General
+    DataSource="DS05List()"
+    CreatePDF="pdf()"
+    Name="CageList" StyleSheet="etc/apiis.css" PageFooter="All_Pages" PageHeader="All_Pages"/>
+  <Detail Name="Detail_0">
+    <Lines Column="1" Name="Lines_11" Row="1" LineType="solid" LineWidth="thin"/>
+  </Detail>
+</Report>

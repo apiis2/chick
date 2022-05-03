@@ -1,0 +1,792 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass article
+\use_default_options true
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_math auto
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\use_hyperref false
+\papersize default
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Section
+Implemented data stream
+\end_layout
+
+\begin_layout Standard
+Dies sind die Datenströme wie sie sich jetzt (Okt 2015) darstellen.
+ Wir haben versucht so dicht wie möglich an den Datenerfassungsgepflogenheiten
+ dran zu bleiben, wollen aber die zu erfassenden Informationen minimieren.
+\end_layout
+
+\begin_layout Description
+DS01 wir fangen mit der Vorbereitung der Reproduktion an.
+ In diesem Datenstrom werden die Käfige ausgewählt, aus denen Eier zur Reprodukt
+ion genommen werden soll.
+ Auf dem Betrieb wird in einem ersten nicht weiter dokumentiertem Schritt
+ eine Liste der im Weiteren zu berücksichtigen Käfige erstellt.
+ Somit gibt es diese Elemente im DS01:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+cage number selected
+\end_layout
+
+\begin_layout Enumerate
+ordinal number
+\end_layout
+
+\begin_layout Enumerate
+date
+\end_layout
+
+\begin_layout Standard
+What information does the form need to provide:
+\end_layout
+
+\begin_layout Enumerate
+the header shows the date and location
+\end_layout
+
+\begin_layout Enumerate
+one screen lists all cages in a grid with a check box each.
+ If checked the cage will be considered active.
+ All others will be closed plus the animal in ANIMAL.exit_dt
+\end_layout
+
+\begin_layout Enumerate
+maybe the breeds need to be indicated through the underlying color of each
+ cage
+\end_layout
+
+\begin_layout Enumerate
+one button at the bottom executes the 'submit'.
+ In this way updates can be handled.
+\end_layout
+
+\begin_layout Enumerate
+the check boxes should reflect the selection already done through a previous
+ 'submit'
+\end_layout
+
+\begin_layout Standard
+The LO needs to do:
+\end_layout
+
+\begin_layout Enumerate
+on the basis of the list of cages from a given location close the cage:
+ for ext_unit, ext_id, db_member set the closing date.
+\end_layout
+
+\begin_layout Enumerate
+set the exit date in ANIMAL to the recording date but leave the data channel
+ open, in case we get more data after this cage selection stage.
+\end_layout
+
+\begin_layout Enumerate
+Eintrag in EVENT?
+\end_layout
+
+\end_deeper
+\begin_layout Description
+DS02 number of eggs collected are recorded three weeks after DS01; these
+ are recorded only for the cages selected in DS01.
+ The data entry form should propose only these cages sorted by cage number
+ (cages are located in the real world in anscending order).
+ A preselect by breed should be possible.
+ Elements for each cage are:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+cage number
+\end_layout
+
+\begin_layout Enumerate
+the list of active cages for this breed (online action, we assume something
+ like max 30 cages/breed)
+\end_layout
+
+\begin_layout Enumerate
+the cages are placed on the screen on a grid with an entry field for each
+ cage
+\end_layout
+
+\begin_layout Enumerate
+number of eggs collected in two days
+\end_layout
+
+\begin_layout Enumerate
+collection date
+\end_layout
+
+\begin_layout Standard
+The form needs to contain the following information:
+\end_layout
+
+\begin_layout Enumerate
+chose the breed
+\end_layout
+
+\begin_layout Enumerate
+the list of active cages for this breed (online action, we assume something
+ like max 30 cages/breed)
+\end_layout
+
+\begin_layout Enumerate
+the cages are placed on the screen on a grid with an entry field for each
+ cage
+\end_layout
+
+\begin_layout Enumerate
+the fields are preset with values already entered before
+\end_layout
+
+\begin_layout Standard
+The LO needs to do:
+\end_layout
+
+\begin_layout Enumerate
+for the remaining active cages record the number of eggs collected is inserted
+ in table ???
+\end_layout
+
+\begin_layout Enumerate
+the grid is preset with the data already entered.
+ Fields can be overwritten.
+ Treat the complete grid as one transaction triggered by one submit button.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+DS03 number of eggs put in the incubator (2 weeks after DS03).
+ Each egg is marked with the cage number it originated from.
+ All eggs from one cage are put under one mesh wire cage for separation.
+ Elements are:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+cage number
+\end_layout
+
+\begin_layout Enumerate
+ordinal number of breed's cages
+\end_layout
+
+\begin_layout Enumerate
+number of eggs put in incubator
+\end_layout
+
+\begin_layout Standard
+The form is basically the same are for DS02.
+ The form needs to contain the following information:
+\end_layout
+
+\begin_layout Enumerate
+chose the breed
+\end_layout
+
+\begin_layout Enumerate
+the list of active cages for this breed (online action, we assume something
+ like max 30 cages/breed)
+\end_layout
+
+\begin_layout Enumerate
+the cages are placed on the screen on a grid with an entry field for each
+ cage
+\end_layout
+
+\begin_layout Enumerate
+the fields are preset with values already entered before
+\end_layout
+
+\begin_layout Standard
+The LO needs to do:
+\end_layout
+
+\begin_layout Enumerate
+for the remaining active cages record the number of eggs put in the incubator
+ is inserted in table ???
+\end_layout
+
+\begin_layout Enumerate
+the grid is preset with the data already entered.
+ Fields can be overwritten.
+ Treat the complete grid as one transaction triggered by one submit button.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+DS04 number of eggs hatched for each set of eggs from a defined cage (some
+ 15 days after loading the incubator).
+ Elements are:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+for each cage number
+\end_layout
+
+\begin_layout Enumerate
+number of chicks hatched
+\end_layout
+
+\begin_layout Enumerate
+date
+\end_layout
+
+\begin_layout Standard
+The form is basically the same are for DS02 and DS03.
+ The form needs to contain the following information:
+\end_layout
+
+\begin_layout Enumerate
+chose the breed
+\end_layout
+
+\begin_layout Enumerate
+the list of active cages for this breed (online action, we assume something
+ like max 30 cages/breed)
+\end_layout
+
+\begin_layout Enumerate
+the cages are placed on the screen on a grid with an entry field for each
+ cage
+\end_layout
+
+\begin_layout Enumerate
+the fields are preset with values already entered before
+\end_layout
+
+\begin_layout Standard
+The LO needs to do:
+\end_layout
+
+\begin_layout Enumerate
+for the remaining active cages record the number of eggs hatched is inserted
+ in table ???
+\end_layout
+
+\begin_layout Enumerate
+the grid is preset with the data already entered.
+ Fields can be overwritten.
+ Treat the complete grid as one transaction triggered by one submit button.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+DS05 here we leave the cage number and move to individual animal identification.
+ At sexing the chicks are tagged with wing bands.
+ For each cage number we record:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+for each cage number
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+1st male chick wing ID
+\end_layout
+
+\begin_layout Enumerate
+2nd male chick wing ID
+\end_layout
+
+\begin_layout Enumerate
+..
+\end_layout
+
+\begin_layout Enumerate
+1st female chick wing ID
+\end_layout
+
+\begin_layout Enumerate
+2nd female chick wing ID
+\end_layout
+
+\begin_layout Enumerate
+..
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+date
+\end_layout
+
+\begin_layout Standard
+The form needs to contain the following information:
+\end_layout
+
+\begin_layout Enumerate
+choose the breed
+\end_layout
+
+\begin_layout Enumerate
+for each (parental) cage we have one screen.
+\end_layout
+
+\begin_layout Enumerate
+the cage number is the header
+\end_layout
+
+\begin_layout Enumerate
+the fields in a row are: wingID, sex, wingID, sex, 
+\end_layout
+
+\begin_layout Enumerate
+maybe we have room for 5 ID/sex pairs per row with 5 rows
+\end_layout
+
+\begin_layout Enumerate
+preset the wingID fields with the incremented last ID
+\end_layout
+
+\begin_layout Enumerate
+the only data to be entered is the sex: m/f
+\end_layout
+
+\begin_layout Enumerate
+if a an ID is broken, simply no sex is specified
+\end_layout
+
+\begin_layout Enumerate
+the last used ID is the field with the last sex entered.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Box Shadowbox
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "100col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Verbatim
+
+              Breed abc
+\end_layout
+
+\begin_layout Verbatim
+
+      chicks from parental cage _
+\end_layout
+
+\begin_layout Verbatim
+
+   4711 _ 4712 _ 4713 _ 4714 _ 4715 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4716 _ 4717 _ 4718 _ 4719 _ 4720 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4721 _ 4722 _ 4723 _ 4724 _ 4725 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4726 _ 4727 _ 4728 _ 4729 _ 4730 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4731 _ 4732 _ 4733 _ 4734 _ 4735 _
+\end_layout
+
+\begin_layout Verbatim
+
+   submit
+\end_layout
+
+\begin_layout Verbatim
+
+\end_layout
+
+\begin_layout Verbatim
+
+data entry with a broken wingID=4716:
+\end_layout
+
+\begin_layout Verbatim
+
+      chicks from parental cage 47
+\end_layout
+
+\begin_layout Verbatim
+
+   4711 m 4712 m 4713 f 4714 f 4715 f
+\end_layout
+
+\begin_layout Verbatim
+
+   4716 _ 4717 f 4718 f 4719 f 4720 f
+\end_layout
+
+\begin_layout Verbatim
+
+   4721 f 4722 f 4723 _ 4724 _ 4725 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4726 _ 4727 _ 4728 _ 4729 _ 4730 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4731 _ 4732 _ 4733 _ 4734 _ 4735 _
+\end_layout
+
+\begin_layout Verbatim
+
+   submit
+\end_layout
+
+\begin_layout Verbatim
+
+\end_layout
+
+\begin_layout Verbatim
+
+the next form would be:
+\end_layout
+
+\begin_layout Verbatim
+
+\end_layout
+
+\begin_layout Verbatim
+
+     chicks from parental cage _
+\end_layout
+
+\begin_layout Verbatim
+
+   4723 _ 4724 _ 4725 _ 4726 _ 4727 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4728 _ 4729 _ 4730 _ 4731 _ 4732 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4733 _ 4734 _ 4735 _ 4736 _ 4737 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4738 _ 4739 _ 4740 _ 4741 _ 4742 _
+\end_layout
+
+\begin_layout Verbatim
+
+   4743 _ 4744 _ 4745 _ 4746 _ 4747 _
+\end_layout
+
+\begin_layout Verbatim
+
+   submit
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The load object will create new entries in ANIMAL for each chick, deriving
+ pedigree information from the cage inhabitants.
+\end_layout
+
+\begin_layout Enumerate
+for each ID a new record in ANIMAL needs to get created
+\end_layout
+
+\begin_layout Enumerate
+skip those lines that have no sex specified
+\end_layout
+
+\begin_layout Enumerate
+the last used ID needs to get determined on the basis of the last record
+ with a sex specified.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+DS06 records the information on the matings of the new generation and the
+ allocation of the animals to the cages.
+ Currently, a simple rotational scheme is used.
+ This results in a list of animals allocated to a certain cage.
+ The elements are:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+cage number
+\end_layout
+
+\begin_layout Enumerate
+rooster ID
+\end_layout
+
+\begin_layout Enumerate
+ID hen 1
+\end_layout
+
+\begin_layout Enumerate
+ID hen 2
+\end_layout
+
+\begin_layout Enumerate
+..
+\end_layout
+
+\begin_layout Standard
+This list will be produced for each breed either manually (as was done until
+ now) or through some software.
+ Thus, before DS06 can be executed, the procedure for doing the mating will
+ have to be defined separately.
+ The user should have the option of chosing animals different from the proposed
+ list.
+\end_layout
+
+\begin_layout Standard
+Operationally, an animal is picked up, the wingID is read.
+ From list sorted by wingID the cage number is picked up and the chick placed
+ in that cage.
+ If this operation is done finishing one breed at a time, then the paper
+ lists can be shorter: one for each breed.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The form needs to contain the following information:
+\end_layout
+
+\begin_layout Enumerate
+choose the breed (if we operate by breed)
+\end_layout
+
+\begin_layout Enumerate
+enter the wingID (i.e.
+ look up on computer, do not use the paper option)
+\end_layout
+
+\begin_layout Enumerate
+if found tick off the ID place the chick in the designated cage.
+\end_layout
+
+\begin_layout Enumerate
+if a proposed chick is replaced (the first died) then the wingID in the
+ form is overwritten.
+\end_layout
+
+\begin_layout Enumerate
+with a submit button upload the complete set and download those that have
+ not been ticked off (dangerous? not safe enough)
+\end_layout
+
+\begin_layout Standard
+The load object will create new entries in CAGE for each cage, storing the
+ wingIDs of the cage inhabitants.
+\end_layout
+
+\begin_layout Enumerate
+for each cage store a new record in CAGE
+\end_layout
+
+\begin_layout Enumerate
+insert the db_cage in ANIMAL for each of the chicks
+\end_layout
+
+\begin_layout Description
+DS07 two different weights are recorded.
+ They can be treated as one data stream.
+ The scale will produce an ASCII file for batch loading.
+ The animal ID may be an issue and may require some translation from the
+ scale ID.
+\end_layout
+
+\begin_layout Description
+DS08 the eggs weights are recorded in analogy to DS07
+\end_layout
+
+\begin_layout Description
+DS09 these are losses and other reasons for animals leaving the herd.
+\end_layout
+
+\begin_layout Description
+issues: where was the 
+\begin_inset Quotes eld
+\end_inset
+
+overwrite
+\begin_inset Quotes erd
+\end_inset
+
+ ?
+\end_layout
+
+\begin_layout Section
+Manual rotation scheme
+\end_layout
+
+\begin_layout Standard
+The basis for DS06 is a list with the lines representing the mating plan
+ i.e.
+ the combination of hens and roosters and their allocation to a cage.
+ These are the assumptions:
+\end_layout
+
+\begin_layout Enumerate
+all female chicks with wingIDs are placed into cages
+\end_layout
+
+\begin_layout Enumerate
+three females are put into one cache; they have to be parental half sibs.
+\end_layout
+
+\begin_layout Enumerate
+two cages are populated with parental half sibs, i.e.
+ we have two of item 2.
+ This will result in a total of around n_lines rooster families and n_lines*2
+ cages.
+ It seems that they 23 sire lines.
+ Thus they should have 46 cages.
+ Thus, 23 males and 23*2*3=138 hens.
+\end_layout
+
+\begin_layout Enumerate
+for a rotation scheme we need to know the sequence in which the roosters are
+ moved on.
+ Let us assume we have n_lines sire lines.The distinct roosters in one generation
+ gives the number of sire lines.
+\end_layout
+
+\begin_layout Enumerate
+Thus, for each rooster its sire line needs to be known.
+\end_layout
+
+\begin_layout Enumerate
+what do we need to know about the hens? as we do not know which of the hens
+ layed the egg which we selected after hatching we cannot say which of the
+ three hens was the mother
+\end_layout
+
+\begin_layout Enumerate
+hmmm.
+ the way they do it:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+they have 23*2 cages/breed.
+ Their IDs are sorted ascendingly.
+ From one year to the next the cage IDs may change (?), the position in
+ the sort is the sID.
+\end_layout
+
+\begin_layout Enumerate
+the new rooster from previous year's sID is put into this years sID+1
+\end_layout
+
+\begin_layout Enumerate
+three new hens form previous year's SID are put into this year's cage
+\end_layout
+
+\begin_layout Enumerate
+ok, what is this setup in principle: the 23*2 cages per breed are placed
+ in some order in the farms.
+ From here on, we refer to each cage through its position in the farm.
+ Then the new male from last years position 1 and 2 will get housed in position
+ 3 and 4.
+ (Only, not every cage produces offspring in the next.) This basic principle
+ reflects the farm model, where next generation sires are moved to the next
+ farm and so on.
+\end_layout
+
+\begin_layout Enumerate
+Thus, eggs are collected from one cage per line only.
+\end_layout
+
+\begin_layout Enumerate
+but 
+\end_layout
+
+\end_deeper
+\end_body
+\end_document

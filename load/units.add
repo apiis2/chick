@@ -1,0 +1,7 @@
+# seperate columns with blancs  
+# if you have more than one word in some columns you must insert these between >'< 
+# for example: breed raw_herdbook 2  02  8724 DL 'German Landrace' ' another kind of Landrace'
+# for undefined TARGET-CODE use NULL
+# CATEGORY TABLE            COLUMN CONTENT               NUMBER  
+#-----------------------------------------------------------------------------
+location   body_weights.csv '18'   'Hvam'                    481 'Hvam'                

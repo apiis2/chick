@@ -1,0 +1,898 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE Load SYSTEM "/home/zwisss/database_stuff/chick/load/load.dtd">
+<Load>
+<General 
+    projectname="chick" 
+    description="Hvam live chicken gene bank" 
+    login="lfgroene" 
+    password="agrum1" 
+    storage="disk" 
+    debug="0" 
+    create_apiis_xml="yes"
+    localpath="/home/zwisss/database_stuff/chick/load">
+</General>
+<Sourcefile filename="merkebok.csv" delimiter="|" skipfirstrows="1" debug="0" charset="" description="merkebok data 2006 til 2012">
+
+    <column id="f0c0" position="0" description="birth_date">
+        <other type="date" format="dd.mm.yyyy"></other>
+    </column>
+    <column id="f0c1" position="1" description="wing_number">
+        <other type="char"></other>
+    </column>
+    <column id="f0c2" position="2" description="cage_number">
+        <other type="number"></other>
+    </column>
+    <column id="f0c3" position="3" description="birth_year">
+        <other type="number"></other>
+    </column>
+
+    <column id="f0c5" position="5" description="far_number">
+        <other type="number"></other>
+    </column>
+
+    <column id="f0c6" position="6" description="breed">
+        <code class="BREED"></code>
+    </column>
+    
+    <column id="f0c4" position="4" description="sex">
+        <code class="SEX"></code>
+    </column>
+
+     <column id="f0c7" position="7" description="animal_id">
+        <animal extunit="wing_id_system"></animal>
+        <concat runinstep="2" useconcatstring="yes">
+            <concatfield contenttype="constant" content="Hvam"></concatfield>
+            <concatfield contenttype="columnid" content="f0c3"></concatfield>
+            <concatfield contenttype="columnid" content="f0c1"></concatfield>
+        </concat>
+    </column>
+    <column id="f0c8" position="8" description="sire_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c9" position="9" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c10" position="10" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c11" position="11" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c12" position="12" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c13" position="13" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c14" position="14" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c15" position="15" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c16" position="16" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c17" position="17" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c18" position="18" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f0c19" position="19" description="dam_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+
+    <column id="f0c20" position="20" description="cage-year">
+        <unit extunit="CAGE-YEAR"></unit>
+        
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f0c2"></concatfield>
+            <concatfield contenttype="columnid" content="f0c3"></concatfield>
+        </concat>
+    </column>
+    <column id="f0c21" position="21" description="exit_dt">
+        <other type="date" format="dd.mm.yyyy"></other>
+    </column>
+    <column id="f0c22" position="22" description="breed">
+        <code class="EXIT_REASON"></code>
+    </column>
+    <column id="f0c23" position="23" description="line">
+        <other type="number"></other>
+    </column>
+
+</Sourcefile>
+
+<Sourcefile filename="klekkebok.csv" delimiter="|" skipfirstrows="1" debug="0" charset="" description="Klekkebok data 2006 til 2013">
+ 
+    <column id="f1c0" position="0" description="year">
+        <other type="char"></other>
+    </column>
+  
+    <column id="f1c1" position="1" description="BREED">
+        <code class="BREED"></code>
+    </column>    
+
+    <column id="f1c2" position="2" description="far_number">
+        <other type="number"></other>
+    </column>
+  
+    <column id="f1c3" position="3" description="cage_number">
+       <other type="number"></other>
+    </column>
+  
+    <column id="f1c4" position="4" description="innlagde_egg">
+        <other type="number"></other>
+    </column>
+  
+    <column id="f1c5" position="5" description="til_klekking">
+        <other type="number"></other>
+    </column>
+  
+    <column id="f1c6" position="6" description="klekka">
+        <other type="number"></other>
+    </column>
+    
+      <column id="f1c7" position="7" description="cage-year">
+        <unit extunit="CAGE-YEAR"></unit>
+        
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f1c3"></concatfield>
+            <concatfield contenttype="columnid" content="f1c0"></concatfield>
+        </concat>
+    </column>
+ 
+  <column id="f1c8" position="8" description="event_eggs_for_hatching">
+        <event name="event"></event>
+        
+        <concat runinstep="2" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f1c10"></concatfield>
+            <concatfield contenttype="columnid" content="f1c9"> </concatfield>
+            <concatfield contenttype="columnid" content="f1c11"></concatfield>
+        </concat>
+    </column>
+
+    <column id="f1c9" position="9" description="hatch_dt">
+        <other type="date" format="dd.mm.yyyy"></other>
+    </column>
+  
+<!--
+neue Spalten, um in f1c8 Referenzen nutzen zu können und keine Konstanten
+-->
+    <column id="f1c10" position="10" description="event_type">
+        <code class='EVENT'></code>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="eggs_for_hatching"></concatfield>
+        </concat>
+    </column>
+
+    <column id="f1c11" position="11" description="sampling location">
+        <unit extunit='location'></unit>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="Hvam"></concatfield>
+        </concat>
+    </column>
+    <column id="f1c12" position="12" description="far_id">
+        <other type="char" ></other>
+    </column>
+
+</Sourcefile>
+
+<Sourcefile filename="body_weights.csv" delimiter="|" skipfirstrows="1" debug="0" charset="" description="body weight data">    
+
+    <column id="f2c0" position="0" description="age_hens_weeks">
+        <code class='EVENT'></code>
+        <regex regex="s/40/weighingbody40weeks/"></regex>
+        <regex regex="s/20/weighingbody20weeks/"></regex>
+    </column>
+
+    <column id="f2c1" position="1" description="weighing_date">
+        <other type="date" format="dd.mm.yyyy"></other>
+    </column>
+  
+    <column id="f2c2" position="2" description="cage_number">
+        <other type="number"></other>
+    </column>
+ 
+    <column id="f2c3" position="3" description="rooster_weight">
+        <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+   </column>
+    
+    <column id="f2c4" position="4" description="hen1_weight">
+        <other type="number"></other>
+<!--
+Diese Funktion muss bei allen <column>s rein, wo der Wert umgewandelt werden muss, also von der Spalte 3 bis...
+-->
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+    </column>
+
+  <column id="f2c5" position="5" description="hen2_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c6" position="6" description="hen3_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c7" position="7" description="hen4_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c8" position="8" description="hen5_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c9" position="9" description="hen6_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c10" position="10" description="hen7_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c11" position="11" description="hen8_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c12" position="12" description="hen9_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+  <column id="f2c13" position="13" description="hen10_weight">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+    
+    <column id="f2c14" position="14" description="birth_year">
+        <other type="char"></other>
+    </column>
+    
+    <column id="f2c15" position="15" description="cage-year">
+        <unit extunit="CAGE-YEAR"></unit>
+        
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f2c2"></concatfield>
+            <concatfield contenttype="columnid" content="f2c14"></concatfield>
+        </concat>
+    </column>
+    
+    <column id="f2c16" position="16" description="event-weighing-body">
+        <event name="event"></event>
+        
+        <concat runinstep="2" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f2c0"></concatfield>
+            <concatfield contenttype="columnid" content="f2c1"></concatfield>
+            <concatfield contenttype="columnid" content="f2c18"></concatfield>
+        </concat>
+    </column>
+
+<!--
+neue Spalten, um in f2c16 Referenzen nutzen zu können und keine Konstanten; aber wenn ich dort f2c0 mit f2c17 ersetze verliere ich die info ob es die waegung in der 20. oder 40. woche ist. 
+    <column id="f2c17" position="17" description="event_type">
+        <code class='EVENT'></code>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="event_weighing_body"></concatfield>
+        </concat>
+    </column>
+-->
+
+    <column id="f2c18" position="18" description="sampling_locality">
+        <unit extunit='location'></unit>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="Hvam"></concatfield>
+        </concat>
+    </column>
+    <column id="f2c19" position="19" description="sire_id">
+        <animal extunit="wing_id_system"></animal>
+    </column>
+    <column id="f2c20" position="20" description="tmp">
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="1"></concatfield>
+        </concat>
+    </column>
+</Sourcefile>
+
+<Sourcefile filename="egg_weights.csv" delimiter="|" skipfirstrows="1" debug="0" charset="" description="egg weight data">
+  <column id="f3c0" position="0" description="cage_number">
+   <other type="number"></other>
+  </column>
+  <column id="f3c1" position="1" description="number_eggs">
+   <other type="number"></other>
+  </column>
+
+  <column id="f3c4" position="4" description="Date">
+   <other type="date" format="dd.mm.yyyy"></other>
+  </column>
+  <column id="f3c2" position="2" description="number_hens">
+   <other type="number"></other>
+  </column>
+  <column id="f3c3" position="3" description="total_weight_eggs">
+   <other type="number"></other>
+        <Modify modify="commatodot" runinstep="1"></Modify>  
+  </column>
+ <column id="f3c5" position="5" description="age_hens_week">
+       <code class='EVENT'></code>
+       <regex regex="s/53/weighingeggs53weeks/"></regex>
+       <regex regex="s/33/weighingeggs33weeks/"></regex>
+ </column>
+ <column id="f3c6" position="6" description="year_born">
+   <other type="number"></other>
+ </column>
+
+    <column id="f3c7" position="7" description="cage-year">
+        <unit extunit="CAGE-YEAR"></unit>
+        
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f3c0"></concatfield>
+            <concatfield contenttype="columnid" content="f3c6"></concatfield>
+        </concat>
+    </column>
+    <column id="f3c8" position="8" description="event-weighing-eggs">
+        <event name="event"></event>
+        
+        <concat runinstep="2" useconcatstring="yes">
+            <concatfield contenttype="columnid" content="f3c5"></concatfield>
+            <concatfield contenttype="columnid" content="f3c4"></concatfield>
+            <concatfield contenttype="columnid" content="f3c10"></concatfield>
+        </concat>
+    </column>
+<!--
+auch hier veriere ich die wochenangaben und as datum wenn ich f3c4 und f3c5 durch f3c9 ersetze. oder brauche das zusaetzlich?
+    <column id="f3c9" position="9" description="event_type">
+        <code class='EVENT'></code>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="event_weighing_eggs"></concatfield>
+        </concat>
+    </column>
+-->
+
+    <column id="f3c10" position="10" description="sampling locality">
+        <unit extunit='location'></unit>
+        <concat runinstep="1" useconcatstring="yes">
+            <concatfield contenttype="constant" content="Hvam"></concatfield>
+        </concat>
+    </column>
+
+</Sourcefile>
+
+
+<AnimalNumberSystem countnumbers="yes" pseudonumbers="no">
+
+    <uniquenumber id="uq1">
+         <columnid id="uq1c1" columnid="f0c7" priority="1"></columnid>
+    </uniquenumber>
+
+    <NumberChannel extunit="wing_id_system">
+      <AnimalNumber>
+        <NumberPart parttype="column" value="2"></NumberPart>
+      </AnimalNumber>
+
+      <NumberCircle>
+        <NumberPart parttype="column" value="0"></NumberPart>                                                       
+        <NumberPart parttype="column" value="1"></NumberPart>
+
+      </NumberCircle>
+    </NumberChannel>
+
+</AnimalNumberSystem>
+
+<LoadTable tablename="animal" id="animal">
+        <dbrecord>
+            <dbcolumn name="db_animal">
+	            <content contenttype="columnid" value="f0c7"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_breed">
+	            <content contenttype="columnid" value="f0c6"></content>
+            </dbcolumn>
+
+            <dbcolumn name="birth_dt">
+	            <content contenttype="columnid" value="f0c0"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_sex">
+	            <content contenttype="columnid" value="f0c4"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_sire">
+	            <content contenttype="columnid" value="f0c8"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam">
+	            <content contenttype="columnid" value="f0c9"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f0c20"></content>
+            </dbcolumn>
+
+            <dbcolumn name="line">
+	            <content contenttype="columnid" value="f0c23"></content>
+            </dbcolumn>
+            
+            <dbcolumn name="exit_dt">
+	            <content contenttype="columnid" value="f0c21"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_exit">
+	            <content contenttype="columnid" value="f0c22"></content>
+            </dbcolumn>
+
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_animal"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+<!-- Table for rooster weights, which can be attributed to an individual animal ID-->
+<LoadTable tablename="pt_indiv" id="pt_indiv">
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_animal">
+	            <content contenttype="columnid" value="f2c19"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c3"></content>
+            </dbcolumn>
+            <dbcolumn name="version">
+	            <content contenttype="columnid" value="f2c20"></content>
+            </dbcolumn>
+	</dbrecord>
+        
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event">  </connectdbcolumns>
+            <connectdbcolumns name="db_animal">   </connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+<LoadTable tablename="pt_cage" id="pt_cage">
+
+<!-- Wie der Name impliziert, stellt der Teil zwischen den <dbrecord>-Tag einen Datensatz in der Zieltabelle dar. dbcolum ist dabei das Ziel und value in content die Quelle. Im Nachfolgenden wird also in die Spalte pt_cage.db_event das geschrieben, was in f2c16 gefunden wurde. 
+
+Wie besprochen machen wir aus 10 Hennenspalten insgesamt 10 Records. Daraus folgt, wir brauchen 10 <dbrecord>s. Der Hahn fällt aus unserer Betrachtung an dieser Stelle heraus, weil wir den in eine extra Tabelle schieben. Da jede Spalte ein Huhn beinhaltet, machen wir noch einen "Spaltenzähler", die hen_number. Der muß also bis 10 hochgezählt werden. 
+
+Weitere Anmerkungen siehe nach dem letzten dbrecord dieser Tabelle. 
+
+!! Linn, sollten zukünftig die Einzelgewichte nicht auch per Nummer erfaßt werden und nicht bloß mit Henne 1 .. 10. Man hat die ja eh in der hand und wiegt die Viecher einzeln. Was anderes wäre es, wenn der gesamte Käfig gewogen würde. 
+
+Sollten wir die Tabellen wt_roosters and wt_hens nennen? Falls man zukünfig die Einzelgewichte hat, könnten natürlich auch die Hennen in die wt_roosters Tabelle, weil gleiche Struktur. Insofern wäre wt_indiv dann richtig oder besser body_wts/body_weights
+
+-->        
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+
+<!-- rausgenommen, weil diese Information im event_type steckt
+            <dbcolumn name="age_hens_week">
+	            <content contenttype="columnid" value="f2c0"></content>
+            </dbcolumn>
+-->        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="1"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c4"></content>
+            </dbcolumn>
+<!--
+Jetzt müssen wir noch Saubermachen. Nicht alle Käfige haben 10 Gewichte. Wir haben aber für alle einen Record erzeugt. Das heißt nicht alle Records haben auch wirklich ein Gewicht. Da es keinen Sinn macht, die in die Datenbank aufzunehmen, sagen wir jetzt mit dem nächsten Tag, unter welchen Umständen die Records nicht in die DB übernommen werden sollen. Bei uns wäre das, wenn body_wt leer ist. 
+
+Eildert, in der ersten Apiis-Version hat das S13.. gemacht. 
+
+-->
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="2"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c5"></content>
+            </dbcolumn>
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="3"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c6"></content>
+            </dbcolumn>
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="4"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c7"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="5"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c8"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="6"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c9"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="7"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c10"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="8"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c11"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="9"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c12"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f2c15"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="hen_number">
+	            <content contenttype="constant" value="10"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="body_wt">
+	            <content contenttype="columnid" value="f2c13"></content>
+            </dbcolumn>
+            
+            <DeleteDbRecords>
+                <DBColumNull name="body_wt"/>
+            </DeleteDbRecords>
+        </dbrecord>
+   
+<!--
+Jeder Record muss eindeutig sein, damit Informationen zugeordnet werden können. 
+(Betrifft uns hier nur am Rande, weil die Informationen nur von einer Stelle 
+kommen. Mit dem Event, der Käfignummer und der Hennen-Nummer wäre das so. 
+ -->
+        
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event">  </connectdbcolumns>
+            <connectdbcolumns name="db_cage">   </connectdbcolumns>
+            <connectdbcolumns name="hen_number"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+
+<!-- table for possible dams -->
+<LoadTable tablename="possible_dams" id="dams">
+        <dbrecord>
+            <dbcolumn name="db_animal">
+	            <content contenttype="columnid" value="f0c7"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam1">
+	            <content contenttype="columnid" value="f0c9"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam2">
+	            <content contenttype="columnid" value="f0c10"></content>
+            </dbcolumn>           
+
+	    <dbcolumn name="db_dam3">
+	            <content contenttype="columnid" value="f0c11"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam4">
+	            <content contenttype="columnid" value="f0c12"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam5">
+	            <content contenttype="columnid" value="f0c13"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam6">
+	            <content contenttype="columnid" value="f0c14"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam7">
+	            <content contenttype="columnid" value="f0c15"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam8">
+	            <content contenttype="columnid" value="f0c16"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam9">
+	            <content contenttype="columnid" value="f0c17"></content>
+            </dbcolumn>
+
+            <dbcolumn name="db_dam10">
+	            <content contenttype="columnid" value="f0c18"></content>
+            </dbcolumn>
+        </dbrecord>
+        <connectkeys main="1">
+            <connectdbcolumns name="db_animal"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+
+<LoadTable tablename="eggs_cage" id="eggs_cage">
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f3c8"></content>
+            </dbcolumn>
+
+<!-- rausgenommen, weil diese Information im event_type steckt
+            <dbcolumn name="age_hens_week">
+	            <content contenttype="columnid" value="f3c5"></content>
+            </dbcolumn>        
+-->
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f3c7"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="number_hens">
+	            <content contenttype="columnid" value="f3c2"></content>
+            </dbcolumn>
+            <dbcolumn name="total_weight_eggs">
+	            <content contenttype="columnid" value="f3c3"></content>
+            </dbcolumn>        
+            <dbcolumn name="n_eggs">
+	            <content contenttype="columnid" value="f3c1"></content>
+            </dbcolumn>
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event"></connectdbcolumns>
+            <connectdbcolumns name="db_cage"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+<LoadTable tablename="hatch_cage" id="hatch_cage">
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f1c8"></content>
+            </dbcolumn>
+            <dbcolumn name="db_cage">
+	            <content contenttype="columnid" value="f1c7"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="collected_eggs">
+	            <content contenttype="columnid" value="f1c4"></content>
+            </dbcolumn>
+        
+            <dbcolumn name="incubated_eggs">
+	            <content contenttype="columnid" value="f1c5"></content>
+            </dbcolumn>
+
+            <dbcolumn name="hatched_eggs">
+	            <content contenttype="columnid" value="f1c6"></content>
+            </dbcolumn>
+
+    	    <dbcolumn name="hatch_dt"> 
+	            <content contenttype="columnid" value="f1c9"></content>
+            </dbcolumn>
+    	    
+            <dbcolumn name="far_id"> 
+	            <content contenttype="columnid" value="f1c12"></content>
+            </dbcolumn>
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_cage"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+
+<LoadTable tablename="event" id="event2">
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+	            <content contenttype="columnid" value="f2c16"></content>
+            </dbcolumn>
+            <dbcolumn name="db_event_type">
+	            <content contenttype="columnid" value="f2c0"></content>
+            </dbcolumn>
+            <dbcolumn name="event_dt">
+	            <content contenttype="columnid" value="f2c1"></content>
+            </dbcolumn>
+            <dbcolumn name="db_location">
+	            <content contenttype="columnid" value="f2c18"></content>
+            </dbcolumn>
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+<LoadTable tablename="event" id="event1">
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+                <content contenttype="columnid" value="f1c8"></content>
+            </dbcolumn>
+            <dbcolumn name="db_event_type">
+                <content contenttype="columnid" value="f1c10"></content>
+            </dbcolumn>
+            <dbcolumn name="event_dt">
+                <content contenttype="columnid" value="f1c9"></content>
+            </dbcolumn>
+            <dbcolumn name="db_location">
+                <content contenttype="columnid" value="f1c11"></content>
+            </dbcolumn>
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+<LoadTable tablename="event" id="event3">
+
+        <dbrecord>
+            <dbcolumn name="db_event">
+                <content contenttype="columnid" value="f3c8"></content>
+            </dbcolumn>
+            <dbcolumn name="db_event_type">
+                <content contenttype="columnid" value="f3c5"></content>
+            </dbcolumn>
+            <dbcolumn name="event_dt">
+                <content contenttype="columnid" value="f3c4"></content>
+            </dbcolumn>
+            <dbcolumn name="db_location">
+                <content contenttype="columnid" value="f3c10"></content>
+            </dbcolumn>
+        </dbrecord>
+    
+        <connectkeys main="1">
+            <connectdbcolumns name="db_event"></connectdbcolumns>
+        </connectkeys>
+</LoadTable>
+
+</Load>

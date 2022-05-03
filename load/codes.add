@@ -1,0 +1,14 @@
+# seperate columns with blancs  
+# if you have more than one word in some columns you must insert these between >'< 
+# for example: breed raw_herdbook 2  02  8724 DL 'German Landrace' ' another kind of Landrace'
+# for undefined TARGET-CODE use NULL
+# CATEGORY TABLE            COLUMN CONTENT               NUMBER  TARGET-CODE   SHORTNAME LONGNAME DESCRIPTION
+#-----------------------------------------------------------------------------
+EVENT      klekkebok.csv    '10'   'eggs_for_hatching'      2111 'eggs_for_hatching'   
+#-----------------------------------------------------------------------------
+EXIT_REASON  merkebok.csv     '4'    '1'                   616 '1' 'sale'                  
+EXIT_REASON  merkebok.csv     '4'    '1'                   616 '2' 'death'                 
+EXIT_REASON  merkebok.csv     '4'    '1'                   616 '3' 'exit'                 
+EXIT_REASON  merkebok.csv     '4'    '1'                   616 '4' 'lost wingnumber'                 
+#-----------------------------------------------------------------------------
+BREED  merkebok.csv     '4'    '1'                         616 'IH' 'IH' 'IH' 'IH'                  

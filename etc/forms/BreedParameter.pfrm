@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ <!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/form2.dtd">
+<Form Name="SelectBreed">
+  <General Name="General_715a6" StyleSheet="/etc/apiis.css" Description="Form"/>
+
+  <Block Name="Block_674a6" Description="Update unit" NavigationBar="no">
+
+
+    <DataSource Name="DataSource_675a6" Connect="no">
+      <none/>
+    </DataSource>
+
+    <Label Name="Label_676a6" Content="__('Data streams')">
+      <Position Column="0-3" Position="absolute" Row="0"/>
+      <Text FontSize="34px" TextDecoration="underline"/>
+    </Label>
+
+    <Label Name="L329" Content="__('Select a breed'): ">
+      <Position Column="0" Position="absolute" Row="2"/>
+    </Label>
+
+    <Field Name="P_ext_breed" FlowOrder="1" InternalData="yes" Check="notnull">
+      <DataSource Name="DS332">
+        <Sql Statement="SELECT a.db_breed as id,  CASE WHEN b.ext_code::text isnull THEN 'unknown' ELSE b.ext_code::text END  as ext_trait FROM animal AS a LEFT OUTER JOIN  codes AS b ON b.db_code=a.db_breed GROUP BY id,ext_trait ORDER BY ext_trait "/>
+      </DataSource>
+      <ScrollingList Size="0"/>
+      <Position Column="0" Position="absolute" Row="3"/>
+      <Miscellaneous />
+      <Text/>
+      <Color/>
+      <Format/>
+    </Field>
+
+    <Field Name="Field_851a61">
+      <Button ButtonLabel="__('DS01: Select cages')" Command="do_runevents"/>
+      <Position Row="4" Column="0"/>
+      <Miscellaneous/>
+      <Text FontSize="12px" TextAlign="center"/>
+      <Color BackGround="#f2f2f2"/>
+      <Format BorderStyle="groove" BorderColor="lightgray" MarginBottom="10px"/>
+      
+      <Event Name="Event_callform1" Type="CallForm" Module="CallForm" Action="callform" >
+        <Parameter Name="P1_cf1" Key="formname" Value="DS/DS01.pfrm"/>
+
+        <Parameter Name="P1_cf2"  Key="master_sourcefield" Value="P_ext_breed"/>
+        <Parameter Name="F1_cf2"  Key="client_targetfield" Value="F_ext_breed"/>
+
+        <Parameter Name="P1_a8" Key="initial_query"      Value="1"/>
+      </Event>
+
+    </Field>
+    
+    <Field Name="Field_851a62">
+      <Button ButtonLabel="__('DS02: Number of eggs collected')" Command="do_runevents"/>
+      <Position Row="5" Column="0"/>
+      <Miscellaneous/>
+      <Text FontSize="12px" TextAlign="center"/>
+      <Color BackGround="#f2f2f2"/>
+      <Format BorderStyle="groove" BorderColor="lightgray" MarginBottom="10px"/>
+      
+      <Event Name="Event_callform2" Type="CallForm" Module="CallForm" Action="callform" >
+        <Parameter Name="P2_cf1" Key="formname" Value="DS/DS02.pfrm"/>
+
+        <Parameter Name="P2_cf2"  Key="master_sourcefield" Value="P_ext_breed"/>
+        <Parameter Name="F2_cf2"  Key="client_targetfield" Value="F_ext_breed"/>
+
+        <Parameter Name="P2_a8" Key="initial_query"      Value="1"/>
+      </Event>
+
+    </Field>
+    
+    <Field Name="Field_851a63">
+      <Button ButtonLabel="__('DS03: Number of eggs incubated')" Command="do_runevents"/>
+      <Position Row="6" Column="0"/>
+      <Miscellaneous/>
+      <Text FontSize="12px" TextAlign="center"/>
+      <Color BackGround="#f2f2f2"/>
+      <Format BorderStyle="groove" BorderColor="lightgray" MarginBottom="10px"/>
+      
+      <Event Name="Event_callform3" Type="CallForm" Module="CallForm" Action="callform" >
+        <Parameter Name="P3_cf1" Key="formname" Value="DS/DS03.pfrm"/>
+
+        <Parameter Name="P3_cf2"  Key="master_sourcefield" Value="P_ext_breed"/>
+        <Parameter Name="F3_cf2"  Key="client_targetfield" Value="F_ext_breed"/>
+
+        <Parameter Name="P3_a8" Key="initial_query"      Value="1"/>
+      </Event>
+
+    </Field>
+    
+    <Field Name="Field_851a64">
+      <Button ButtonLabel="__('DS04: hatched chicks')" Command="do_runevents"/>
+      <Position Row="7" Column="0"/>
+      <Miscellaneous/>
+      <Text FontSize="12px" TextAlign="center"/>
+      <Color BackGround="#f2f2f2"/>
+      <Format BorderStyle="groove" BorderColor="lightgray" MarginBottom="10px"/>
+      
+      <Event Name="Event_callform4" Type="CallForm" Module="CallForm" Action="callform" >
+        <Parameter Name="P4_cf1" Key="formname" Value="DS/DS04.pfrm"/>
+
+        <Parameter Name="P4_cf2"  Key="master_sourcefield" Value="P_ext_breed"/>
+        <Parameter Name="F4_cf2"  Key="client_targetfield" Value="F_ext_breed"/>
+
+        <Parameter Name="P4_a8" Key="initial_query"      Value="1"/>
+      </Event>
+
+    </Field>
+    
+    <Color BackGround="#f0f0f0"/>
+    <Format BorderStyle="ridge" BorderColor="#f0f0f0" Padding="10px"/>
+
+  </Block>
+</Form>

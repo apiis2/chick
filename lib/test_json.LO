@@ -1,0 +1,75 @@
+#!/usr/bin/perl -w
+#
+##############################################################################
+# $Id: test_json.LO,v 1.4 2016/04/14 06:54:05 ulm Exp $
+##############################################################################
+# This is only a test file to help during development. You can see how to
+# use the different methods of the Form object.
+
+BEGIN {
+   use Env qw( APIIS_HOME );
+   die "\n\tAPIIS_HOME is not set!\n\n" unless $APIIS_HOME;
+   push @INC, "$APIIS_HOME/lib";
+   push @INC, "$APIIS_HOME/chick/etc/reports";
+}
+use strict;
+use warnings;
+use JSON;
+use Apiis;
+Apiis->initialize( VERSION => '$Revision: 1.4 $' );
+use Apiis::DataBase::User;
+use Data::Dumper;
+$Data::Dumper::Indent = 1;
+$Data::Dumper::Terse  = 1;
+
+############ EDIT ##############################
+
+#-- to check LO
+my $LO = 'LO_DS020304';
+
+#-- comes from firefox activate FireBug->Console->Post GUIAjay
+my $json=from_json( '{"data":[{"db_event":["18","",""],"selected_cage":[true,"",""],"db_cage":["2692","",""]},{"db_event":["18","",""],"selected_cage":[false,""],"db_cage":["2692","",""]},{"db_event":["18","",""],"selected_cage":[true,"",""],"db_cage":["2692","",""]}],"form":"/home/b08mueul/apiis/chick/etc/forms/DS/DS01.frm","info":"","command":"do_save_block","sid":"0b367250d9202137d1b022ee860e434e"}');
+
+
+## create a user objec create a user object to save repeated user/pw typing during tests:
+my $testuser = Apiis::DataBase::User->new(
+   id       => 'lfgroene',
+   password => 'agrum1',
+);
+
+########## END
+
+$testuser->check_status;
+
+#-- connect to apiis-model and check user 
+$apiis->join_model('chick', userobj => $testuser );
+$apiis->check_status;
+
+no strict "refs";
+my $load_string="use $LO";
+
+#-- bind LO
+eval $load_string;
+
+#-- print error messages 
+if ($@) {
+  print $@;
+}
+
+#-- loop over all date
+foreach my $record (@{$json->{'data'}}) {
+
+    my $hs={};
+    
+    #-- fill hash as argument for LO 
+    map { $hs->{$_}=$record->{$_}->[0]} keys %$record;
+
+    #-- starts LoadObject      
+    my ( $status,$err_ref ) = &$LO($apiis,  $hs );
+
+    #-- print error messages 
+    $err_ref->print if ($status);
+}
+
+
+

@@ -1,0 +1,2475 @@
+<?xml version="1.0"?>
+<!DOCTYPE model SYSTEM "model.dtd">
+
+<model
+>
+
+    <table
+
+        name  = "transfer">
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user', 'SetNow opening_dt'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                SEQUENCE    = "seq_transfer__db_animal"
+                PRIMARYKEY  = "REF_COL:db_animal;CONCAT:db_unit,ext_animal;VIEW:entry_transfer;WHERE:closing_dt is NULL;"
+                INDEX       = "db_animal,ext_animal db_unit">
+            </CONSTRAINTS>
+        </TABLE>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_animal"
+            DESCRIPTION  = "Internal ID of animal"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull,ForeignKey unit db_unit,ReservedStrings"
+            DESCRIPTION  = "Internal ID of unit"
+            LENGTH       = "20"
+            name         = "db_unit"
+            DATATYPE     = "BIGINT">
+        </column>
+
+        <column
+
+            DATATYPE     = "CHAR"
+            name         = "ext_animal"
+            LENGTH       = "30"
+            DESCRIPTION  = "External ID of an animal"
+            CHECK        = "ReservedStrings">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "opening_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = "number channel is open up to this time"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "closing_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = "number channel is closed up to this time"
+            CHECK        = "DateDiff 0 5000 opening_dt">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "id_set"
+            DESCRIPTION  = "Set of categories for the numbering scheme"
+            CHECK        = "NotNull,ForeignKey codes db_code class=ID_SET">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "event">
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                SEQUENCE    = "seq_event__db_event"
+                INDEX       = "db_event, db_event_type, db_event_type event_dt"
+                PRIMARYKEY  = "REF_COL:db_event;CONCAT:db_event_type,event_dt,db_location;">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetColumn db_event seq_event__db_event','SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+
+        <column
+
+            DESCRIPTION  = "Internal ID of an event"
+            CHECK        = "NotNull"
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_event">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            name         = "db_event_type"
+            DATATYPE     = "BIGINT"
+            CHECK        = "NotNull,ForeignKey codes db_code class=EVENT"
+            DESCRIPTION  = "Internal ID of a performence test">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Date of the event"
+            name         = "event_dt"
+            DATATYPE     = "DATE"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull,ForeignKey unit db_unit"
+            DESCRIPTION  = "Internal ID of the location of performance"
+            LENGTH       = "10"
+            name         = "db_location"
+            DATATYPE     = "BIGINT">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey unit db_unit"
+            DESCRIPTION  = "Internal ID of a sampler"
+            name         = "db_sampler"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "unit">
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetColumn db_unit seq_unit__db_unit','SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user', 'SetNow opening_dt'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                PRIMARYKEY  = "WHERE:closing_dt is NULL;CONCAT:ext_unit,ext_id;VIEW:entry_unit;REF_COL:db_unit;"
+                SEQUENCE    = "seq_unit__db_unit"
+                INDEX       = "db_unit, ext_unit ext_id">
+            </CONSTRAINTS>
+        </TABLE>
+
+        <column
+
+            DESCRIPTION  = "Internal ID of a unit"
+            CHECK        = "NotNull"
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_unit">
+        </column>
+
+        <column
+
+            MODIFY       = "LowerCase"
+            DESCRIPTION  = "Class of a unit"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            name         = "ext_unit"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "CHAR"
+            name         = "ext_id"
+            DESCRIPTION  = "External name of a unit"
+            CHECK        = "NotNull,ReservedStrings">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Short name of a code"
+            CHECK        = "ForeignKey address db_address"
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_role">
+        </column>
+
+        <column
+
+            name         = "db_member"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10"
+            CHECK        = "ForeignKey address db_address"
+            DESCRIPTION  = "Short name of a code">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey address db_address"
+            DESCRIPTION  = "Short name of a code"
+            name         = "db_address"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "number channel is open up to this time"
+            CHECK        = "NotNull"
+            DATATYPE     = "DATE"
+            name         = "opening_dt"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "closing_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = "number channel is closed up to this time"
+            CHECK        = "DateDiff 0 5000 opening_dt">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "codes">
+
+        <column
+
+            DESCRIPTION  = "Internal ID of a code"
+            CHECK        = "NotNull"
+            DATATYPE     = "BIGINT"
+            name         = "db_code"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            name         = "class"
+            DATATYPE     = "CHAR"
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Internal ID of a code"
+            MODIFY       = "UpperCase">
+        </column>
+
+        <column
+
+            name         = "ext_code"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20"
+            CHECK        = "NotNull"
+            DESCRIPTION  = "External name of a code">
+        </column>
+
+        <column
+
+            DATATYPE     = "CHAR"
+            name         = "short_name"
+            LENGTH       = "10"
+            DESCRIPTION  = "Short name of a code"
+            CHECK        = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Long name of a code"
+            CHECK        = ""
+            LENGTH       = "20"
+            DATATYPE     = "CHAR"
+            name         = "long_name">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "Description of a code"
+            LENGTH       = "100"
+            name         = "description"
+            DATATYPE     = "CHAR">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "number channel is open up to this time"
+            LENGTH       = "10"
+            name         = "opening_dt"
+            DATATYPE     = "DATE">
+        </column>
+
+        <column
+
+            CHECK        = "DateDiff 0 5000 opening_dt"
+            DESCRIPTION  = "number channel is closed up to this time"
+            LENGTH       = "10"
+            name         = "closing_dt"
+            DATATYPE     = "DATE">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                SEQUENCE    = "seq_codes__db_code"
+                PRIMARYKEY  = "REF_COL:db_code;CONCAT:class,ext_code;VIEW:entry_codes;WHERE:closing_dt is NULL;"
+                INDEX       = "db_code, class ext_code">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetColumn db_code seq_codes__db_code','SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user', 'SetNow opening_dt'">
+            </TRIGGER>
+        </TABLE>
+    </table>
+
+    <table
+
+        name  = "address">
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                SEQUENCE    = "seq_address__db_address"
+                INDEX       = "db_address, ext_address"
+                PRIMARYKEY  = "REF_COL:db_address;CONCAT:ext_address;">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREINSERT  = "'SetColumn db_address seq_address__db_address','SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'"
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_address"
+            DESCRIPTION  = "Internal ID of an address"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "External name of a address"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            name         = "ext_address"
+            LENGTH       = "25">
+        </column>
+
+        <column
+
+            name         = "db_title"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20"
+            CHECK        = "ForeignKey codes db_code class=TITLE"
+            DESCRIPTION  = "Title of a person">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            name         = "db_salutation"
+            DATATYPE     = "BIGINT"
+            CHECK        = "ForeignKey codes db_code class=SALUTATION"
+            DESCRIPTION  = "Salutation of a person">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Firstname of a person"
+            CHECK        = ""
+            DATATYPE     = "CHAR"
+            name         = "first_name"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "Second name of a person"
+            name         = "second_name"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Streed"
+            CHECK        = ""
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "street">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "HZ"
+            CHECK        = ""
+            LENGTH       = "5"
+            DATATYPE     = "CHAR"
+            name         = "hz">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "Zip"
+            LENGTH       = "5"
+            name         = "zip"
+            DATATYPE     = "CHAR">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Town"
+            CHECK        = ""
+            DATATYPE     = "CHAR"
+            name         = "town"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "zu_haenden"
+            DESCRIPTION  = "for person"
+            CHECK        = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "firma_name"
+            CHECK        = ""
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "firma_name">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "birth_dt"
+            LENGTH       = "50"
+            name         = "birth_dt"
+            DATATYPE     = "CHAR">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "County"
+            name         = "county"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_country"
+            DESCRIPTION  = "Country"
+            CHECK        = "ForeignKey codes db_code class=COUNTRY">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_language"
+            DESCRIPTION  = "Language"
+            CHECK        = "ForeignKey codes db_code class=LANGUAGE">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "phone_priv"
+            name         = "phone_priv"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "phone_firma"
+            name         = "phone_firma"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "phone_mobil"
+            CHECK        = ""
+            DATATYPE     = "CHAR"
+            name         = "phone_mobil"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            name         = "fax"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50"
+            CHECK        = ""
+            DESCRIPTION  = "fax">
+        </column>
+
+        <column
+
+            name         = "email"
+            DATATYPE     = "CHAR"
+            LENGTH       = "50"
+            CHECK        = ""
+            DESCRIPTION  = "email">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "http"
+            CHECK        = ""
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "http">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "comment"
+            CHECK        = ""
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "comment">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "bank"
+            CHECK        = ""
+            DATATYPE     = "CHAR"
+            name         = "bank"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = "iban"
+            LENGTH       = "50"
+            name         = "iban"
+            DATATYPE     = "CHAR">
+        </column>
+
+        <column
+
+            LENGTH       = "50"
+            DATATYPE     = "CHAR"
+            name         = "bic"
+            DESCRIPTION  = "bic"
+            CHECK        = "">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey codes db_code class=PAYMENT"
+            DESCRIPTION  = "db_payment"
+            name         = "db_payment"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "member_entry_dt"
+            LENGTH       = "50"
+            DESCRIPTION  = "member_entry_dt"
+            CHECK        = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "member_exit_dt"
+            CHECK        = ""
+            DATATYPE     = "DATE"
+            name         = "member_exit_dt"
+            LENGTH       = "50">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "animal">
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_animal, db_sire, db_dam">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+
+        <column
+
+            DESCRIPTION  = "Internal ID of animal"
+            CHECK        = "NotNull,ForeignKey transfer db_animal"
+            DATATYPE     = "BIGINT"
+            name         = "db_animal"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            name         = "db_sire"
+            DATATYPE     = "BIGINT"
+            CHECK        = "NotNull,ForeignKey transfer db_animal"
+            DESCRIPTION  = "Internal ID of sire">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull,ForeignKey transfer db_animal"
+            DESCRIPTION  = "Internal ID of dam"
+            name         = "db_dam"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey codes db_code class=SEX"
+            DESCRIPTION  = "Sex of an animal"
+            LENGTH       = "20"
+            name         = "db_sex"
+            DATATYPE     = "BIGINT">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Breed of an animal"
+            CHECK        = "ForeignKey codes db_code class=BREED"
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_breed">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_selection"
+            DESCRIPTION  = "Selection status of an animal"
+            CHECK        = "ForeignKey codes db_code class=SELECTION">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "birth date"
+            CHECK        = ""
+            LENGTH       = "10"
+            DATATYPE     = "DATE"
+            name         = "birth_dt">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            name         = "la_rep_dt"
+            DATATYPE     = "DATE"
+            CHECK        = ""
+            DESCRIPTION  = "Internal use of a date for checking">
+        </column>
+
+        <column
+
+            CHECK        = "List NEW SELECTION SERVICE FARROW WEANING EXIT"
+            DESCRIPTION  = "Last action"
+            LENGTH       = "10"
+            name         = "la_rep"
+            DATATYPE     = "CHAR">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_cage"
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey unit db_unit">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = ""
+            DATATYPE     = "SMALLFLOAT"
+            name         = "line"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = ""
+            DATATYPE     = "DATE"
+            name         = "exit_dt"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            name         = "db_exit"
+            DATATYPE     = "BIGINT"
+            CHECK        = ""
+            DESCRIPTION  = "">
+        </column>
+    </table>
+
+    <table
+
+        name  = "locations">
+
+        <column
+
+            DATATYPE     = "BIGINT"
+            name         = "db_animal"
+            LENGTH       = "20"
+            DESCRIPTION  = "Internal ID of animal"
+            CHECK        = "NotNull,ForeignKey transfer db_animal">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "entry_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = "animal comes into an location"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_entry_action"
+            DESCRIPTION  = "Action while entering the location"
+            CHECK        = "NotNull,ForeignKey codes db_code class=ENTRY_ACTION">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "exit_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = "animal goes out of an location"
+            CHECK        = "DateDiff 0 5000 entry_dt">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Action while leaving the location"
+            CHECK        = "ForeignKey codes db_code class=EXIT_ACTION"
+            LENGTH       = "20"
+            DATATYPE     = "BIGINT"
+            name         = "db_exit_action">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "Animal location - it can be farm or enclosure or even field"
+            CHECK        = "NotNull,ForeignKey unit db_unit,ReservedStrings"
+            DATATYPE     = "BIGINT"
+            name         = "db_location"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                INDEX  = "db_location, db_animal">
+            </CONSTRAINTS>
+        </TABLE>
+    </table>
+
+    <table
+
+        name  = "languages">
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                SEQUENCE    = "seq_languages__lang_id"
+                INDEX       = "unique lang_id, unique iso_lang, unique guid"
+                PRIMARYKEY  = "">
+            </CONSTRAINTS>
+        </TABLE>
+
+        <column
+
+            DESCRIPTION  = "language id"
+            CHECK        = "NotNull"
+            DATATYPE     = "BIGINT"
+            name         = "lang_id"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "language id"
+            CHECK        = ""
+            LENGTH       = "2"
+            DATATYPE     = "CHAR"
+            name         = "iso_lang">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "CHAR"
+            name         = "lang"
+            DESCRIPTION  = "language id"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "TIMESTAMP"
+            name         = "creation_dt"
+            DESCRIPTION  = "Timestamp of creation"
+            CHECK        = "NotNull"
+            MODIFY       = "SetNow">
+        </column>
+
+        <column
+
+            LENGTH       = "20"
+            DATATYPE     = "CHAR"
+            name         = "creation_user"
+            DESCRIPTION  = "Who did the creation"
+            CHECK        = "NotNull"
+            MODIFY       = "SetUser">
+        </column>
+
+        <column
+
+            name         = "end_dt"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "20"
+            MODIFY       = "SetNow"
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Timestamp of creation">
+        </column>
+
+        <column
+
+            DATATYPE     = "CHAR"
+            name         = "end_user"
+            LENGTH       = "20"
+            MODIFY       = "SetUser"
+            DESCRIPTION  = "Who did the creation"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "nodes">
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                PRIMARYKEY  = ""
+                SEQUENCE    = "seq_database__guid"
+                INDEX       = "unique guid">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREUPDATE  = "'SetVersion version','SetNow last_change_dt','SetUser last_change_user'"
+                PREINSERT  = "'SetVersion version','SetGuid guid','SetNode owner','SetNow last_change_dt','SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+
+        <column
+
+            LENGTH       = "20"
+            name         = "nodename"
+            DATATYPE     = "CHAR"
+            CHECK        = "NotNull"
+            DESCRIPTION  = "node name">
+        </column>
+
+        <column
+
+            DATATYPE     = "CHAR"
+            name         = "address"
+            LENGTH       = "10"
+            DESCRIPTION  = "node ip address"
+            CHECK        = "NotNull">
+        </column>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+    </table>
+
+    <table
+
+        name  = "pt_indiv">
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREINSERT  = " 'SetVersion version',
+                                                'SetGuid guid',
+                                                'SetNode owner',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'"
+                PREUPDATE  = "  'SetVersion version',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_event db_animal">
+            </CONSTRAINTS>
+        </TABLE>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey event db_event"
+            DATATYPE     = "BIGINT"
+            name         = "db_event"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey unit db_unit"
+            DESCRIPTION  = ""
+            name         = "db_cage"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey transfer db_animal"
+            DESCRIPTION  = ""
+            name         = "db_animal"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = ""
+            LENGTH       = "10"
+            name         = "body_wt"
+            DATATYPE     = "SMALLFLOAT">
+        </column>
+    </table>
+
+    <table
+
+        name  = "pt_cage">
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            name         = "db_event"
+            DATATYPE     = "BIGINT"
+            CHECK        = "ForeignKey event db_event"
+            DESCRIPTION  = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey unit db_unit"
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_cage">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = ""
+            LENGTH       = "255"
+            DATATYPE     = "CHAR"
+            name         = "hen_number">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = ""
+            LENGTH       = "10"
+            DATATYPE     = "SMALLFLOAT"
+            name         = "body_wt">
+        </column>
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_event db_cage hen_number">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREINSERT  = " 'SetVersion version',
+                                                'SetGuid guid',
+                                                'SetNode owner',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'"
+                PREUPDATE  = "  'SetVersion version',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+    </table>
+
+    <table
+
+        name  = "possible_dams">
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_animal">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey transfer db_animal"
+            DESCRIPTION  = ""
+            LENGTH       = "10"
+            name         = "db_dam1"
+            DATATYPE     = "BIGINT">
+        </column>
+
+        <column
+
+            name         = "db_dam2"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "10"
+            CHECK        = "ForeignKey transfer db_animal"
+            DESCRIPTION  = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            DATATYPE     = "BIGINT"
+            name         = "db_dam3"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = "ForeignKey transfer db_animal"
+            DESCRIPTION  = ""
+            LENGTH       = "10"
+            name         = "db_dam4"
+            DATATYPE     = "BIGINT">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_dam5">
+        </column>
+
+        <column
+
+            DATATYPE     = "BIGINT"
+            name         = "db_dam6"
+            LENGTH       = "10"
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            name         = "db_dam7"
+            DATATYPE     = "BIGINT"
+            CHECK        = "ForeignKey transfer db_animal"
+            DESCRIPTION  = "">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            DATATYPE     = "BIGINT"
+            name         = "db_dam8"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            DATATYPE     = "BIGINT"
+            name         = "db_dam9"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey transfer db_animal"
+            DATATYPE     = "BIGINT"
+            name         = "db_dam10"
+            LENGTH       = "10">
+        </column>
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREUPDATE  = "  'SetVersion version',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'"
+                PREINSERT  = " 'SetVersion version',
+                                                'SetGuid guid',
+                                                'SetNode owner',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_animal">
+            </CONSTRAINTS>
+        </TABLE>
+    </table>
+
+    <table
+
+        name  = "eggs_cage">
+
+        <TABLE
+>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_event db_cage">
+            </CONSTRAINTS>
+
+            <TRIGGER
+
+                PREINSERT  = " 'SetVersion version',
+                                                'SetGuid guid',
+                                                'SetNode owner',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'"
+                PREUPDATE  = "  'SetVersion version',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'">
+            </TRIGGER>
+        </TABLE>
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            DATATYPE     = "BIGINT"
+            name         = "db_event"
+            LENGTH       = "10"
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey event db_event">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_cage"
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey unit db_unit">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = ""
+            DATATYPE     = "SMALLFLOAT"
+            name         = "number_hens"
+            LENGTH       = "10">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = ""
+            LENGTH       = "10"
+            name         = "total_weight_eggs"
+            DATATYPE     = "SMALLFLOAT">
+        </column>
+
+        <column
+
+            name         = "n_eggs"
+            DATATYPE     = "SMALLFLOAT"
+            LENGTH       = "10"
+            CHECK        = ""
+            DESCRIPTION  = "">
+        </column>
+    </table>
+
+    <table
+
+        name  = "hatch_cage">
+
+        <column
+
+            data         = "$now"
+            MODIFY       = "SetNow"
+            DESCRIPTION  = "Timestamp of last change"
+            name         = "last_change_dt"
+            CHECK        = "NotNull"
+            DATATYPE     = "TIMESTAMP"
+            LENGTH       = "22">
+        </column>
+
+        <column
+
+            MODIFY       = "SetUser"
+            data         = "$user"
+            DESCRIPTION  = "Who did the last change"
+            name         = "last_change_user"
+            CHECK        = "NotNull"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            name         = "dirty"
+            DATATYPE     = "BOOL"
+            LENGTH       = "1"
+            default      = "FALSE"
+            data         = ""
+            DESCRIPTION  = "report errors from CHECK_integrity">
+        </column>
+
+        <column
+
+            DATATYPE     = "BOOL"
+            name         = "synch"
+            default      = "FALSE"
+            LENGTH       = "1"
+            DESCRIPTION  = "is record targeted for synchronization">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "check level"
+            default      = "1"
+            LENGTH       = "3"
+            name         = "chk_lvl"
+            DATATYPE     = "SMALLINT">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "global indentifier"
+            name         = "guid"
+            DATATYPE     = "BIGINT"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            CHECK        = "NotNull"
+            DESCRIPTION  = "Who is the owner or record"
+            name         = "owner"
+            DATATYPE     = "CHAR"
+            LENGTH       = "20">
+        </column>
+
+        <column
+
+            DESCRIPTION  = "version of record"
+            CHECK        = "NotNull"
+            default      = "1"
+            LENGTH       = "3"
+            DATATYPE     = "SMALLINT"
+            name         = "version">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_event"
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey event db_event">
+        </column>
+
+        <column
+
+            DESCRIPTION  = ""
+            CHECK        = "ForeignKey unit db_unit"
+            LENGTH       = "10"
+            DATATYPE     = "BIGINT"
+            name         = "db_cage">
+        </column>
+
+        <column
+
+            CHECK        = ""
+            DESCRIPTION  = ""
+            LENGTH       = "10"
+            name         = "collected_eggs"
+            DATATYPE     = "SMALLFLOAT">
+        </column>
+
+        <column
+
+            LENGTH       = "10"
+            DATATYPE     = "SMALLFLOAT"
+            name         = "incubated_eggs"
+            DESCRIPTION  = ""
+            CHECK        = "">
+        </column>
+
+        <column
+
+            DATATYPE     = "SMALLFLOAT"
+            name         = "hatched_eggs"
+            LENGTH       = "10"
+            DESCRIPTION  = ""
+            CHECK        = "">
+        </column>
+
+        <column
+
+            DATATYPE     = "DATE"
+            name         = "hatch_dt"
+            LENGTH       = "10"
+            DESCRIPTION  = ""
+            CHECK        = "">
+        </column>
+
+        <column
+
+            LENGTH       = "255"
+            name         = "far_id"
+            DATATYPE     = "CHAR"
+            CHECK        = ""
+            DESCRIPTION  = "">
+        </column>
+
+        <TABLE
+>
+
+            <TRIGGER
+
+                PREINSERT  = " 'SetVersion version',
+                                                'SetGuid guid',
+                                                'SetNode owner',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'"
+                PREUPDATE  = "  'SetVersion version',
+                                                'SetNow last_change_dt',
+                                                'SetUser last_change_user'">
+            </TRIGGER>
+
+            <CONSTRAINTS
+
+                INDEX  = "unique db_cage">
+            </CONSTRAINTS>
+        </TABLE>
+    </table>
+
+    <general
+
+        dbencoding  = "utf8"
+        dbhost      = "localhost"
+        dbdriver    = "Pg"
+        dbname      = "chick"
+        dbuser      = "apiis_admin"
+        dbport      = "5432">
+    </general>
+    &AccessRightsTables;
+
+</model>

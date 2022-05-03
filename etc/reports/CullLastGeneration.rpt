@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/report.dtd">  
+<Report>
+  <General
+    DataSource="GetData({birth_year},{exit_dt})"
+    StyleSheet="/etc/apiis.css"
+    UseForm="/etc/forms/CullParameter.pfrm"
+    Name="General_0" PageFooter="All_Pages" PageHeader="All_Pages" CharSet="UTF-8"/>
+ <GUIHeader Name="GUIHeader_50">
+     <Text Column="1" Content="List of all animals" Name="Text_50" Row="1" FontSize="24px"/>
+ </GUIHeader>
+  <Detail Name="Detail_10">
+    <Data Column="1" Content="[field]" Name="Data_13" Row="1" FontFamily="Courier"/>
+  </Detail>
+</Report>
