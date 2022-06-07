@@ -58,6 +58,7 @@ sub LO_DS06 {
     my $extevent;
     my @in;
     my %breeds;
+    my $hs_dscheck;
 
     my @field;
     my $hs_fields={};
@@ -76,7 +77,7 @@ sub LO_DS06 {
 
     ($json) = chick::CheckStatusDS($apiis,$json,'');
 
-    if (exists $json->{'Critical'}) {
+    if (exists $json->{'Critical'} and ($json->{'Critical'})) {
    
         if ($onlycheck eq 'off') {
             $json->{'Critical'}=[[main::__('DS06 always finished.')]];
@@ -290,30 +291,30 @@ sub LO_DS06 {
         my $grandsire = $hs_pedigree->{ $args->{'ext_animal'} }->{'s'};
         my $sex       = 'dam';
 
-        if ($breed) {
-            #-- Check auf korrekten Ladestrom
-            if (!$hs_dscheck->{$breed}->[1] and !$hs_dscheck->{$breed}->[2] and !$hs_dscheck->{$breed}->[3]) {
-                my $at=1;
-            }
-            else {
-                $json->{'Before'}.=main::__("Wrong datastream for breed: [_1]", $breed);    
-                return $json;
-            }
-        }
-        else {
-            #-- Schleife über alle Rassen 
-            foreach my $breed (keys %$hs_dscheck) {
-            
-                #-- Check auf korrekten Ladestrom
-                if (!$hs_dscheck->{$breed}->[1] and !$hs_dscheck->{$breed}->[2] and !$hs_dscheck->{$breed}->[3]) {
-                    my $at=1;
-                }
-                else {
-                    $json->{'Before'}.=main::__("Wrong datastream for breed: [_1]", $breed);    
-                    return $json;
-                }
-            }
-        }
+#        if ($breed) {
+#            #-- Check auf korrekten Ladestrom
+#            if (!$hs_dscheck->{$breed}->[1] and !$hs_dscheck->{$breed}->[2] and !$hs_dscheck->{$breed}->[3]) {
+#                my $at=1;
+#            }
+#            else {
+#                $json->{'Before'}.=main::__("Wrong datastream for breed: [_1]", $breed);    
+#                return $json;
+#            }
+#        }
+#        else {
+#            #-- Schleife über alle Rassen 
+#            foreach my $breed (keys %$hs_dscheck) {
+#            
+#                #-- Check auf korrekten Ladestrom
+#                if (!$hs_dscheck->{$breed}->[1] and !$hs_dscheck->{$breed}->[2] and !$hs_dscheck->{$breed}->[3]) {
+#                    my $at=1;
+#                }
+#                else {
+#                    $json->{'Before'}.=main::__("Wrong datastream for breed: [_1]", $breed);    
+#                    return $json;
+#                }
+#            }
+#        }
                 
         $grandsire='' if (!$grandsire);
 
@@ -427,10 +428,15 @@ sub LO_DS06 {
             my @b= sort {      $b     <=>      $a     } keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_far'}};
             my @a= sort {      $b     <=>      $a     } keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'dam_far'}};
 
-            $hs_check->{$breed}->{'far_cage'}->[$pos] =$cage;
+            #-- initialisieren 
+            if (!exists $hs_check->{$breed}->{'far_cage'}->[$pos]) {
+                $hs_check->{$breed}->{'far_cage'}->[$pos]=[];
+            }
+
+            push(@{$hs_check->{$breed}->{'far_cage'}->[$pos]},$cage);
+
             $hs_check->{$breed}->{'far_sire'}->[$pos] =join(', ',@b);
             $hs_check->{$breed}->{'far_dam' }->[$pos] =join(', ',@a);
-
         }
 
         $json->{'Before'}.='<h4>Rotationscheme '.$breed.'</h4>';  
@@ -446,127 +452,131 @@ sub LO_DS06 {
         
         #-- Schleife über alle weibliche Linien
         for (my $i=1;$i<=$#{$hs_check->{$breed}->{'far_dam'}};$i++) {
-       
-            my $color='';
-            my $colord='';
-            
-            #-- Käfig der Mutterlinien 
-            my $cage=$hs_check->{$breed}->{'far_cage'}->[$i];
+      
+            #-- Schleife über alle Käfige der weiblichen Linie 
+            for (my $j=0; $j<=$hs_check->{$breed}->{'far_cage'}->[$i]; $j++) {
 
-            #-- welcher Vaterlinie ist drin? 
-            my $far =$hs_check->{$breed}->{'far_sire'}->[$i];
-
-            if (!$hs_check->{$breed}->{'far_dam'}->[$i]) {
-                $errors{main::__('Missing line')}=[''];
-                $colord='red';
-            }
-            else {
-
-                if (!$hs_check->{$breed}->{'far_sire'}->[$i]) {
-                    
-                    #-- check auf kein Hahn im Käfig
-                    if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_far'}}==0) {
+                my $color='';
+                my $colord='';
                 
+                #-- Käfig der Mutterlinien 
+                my $cage=$hs_check->{$breed}->{'far_cage'}->[$i][$j];
+
+                #-- welcher Vaterlinie ist drin? 
+                my $far =$hs_check->{$breed}->{'far_sire'}->[$i];
+
+                if (!$hs_check->{$breed}->{'far_dam'}->[$i]) {
+                    $errors{main::__('Missing line')}=[''];
+                    $colord='red';
+                }
+                else {
+
+                    if (!$hs_check->{$breed}->{'far_sire'}->[$i]) {
+                        
+                        #-- check auf kein Hahn im Käfig
+                        if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_far'}}==0) {
+                        
+                            $color='red';
+                                
+                            if (!exists $errors{main::__('No rooster in cage')}) {
+                                $errors{main::__('No rooster in cage')}=[$cage];
+                            }
+                            else {
+                                push(@{ $errors{main::__('No rooster in cage')} },$cage);
+                            }
+                        }
+                    }
+
+                    #-- check auf zu viele Hähne im Käfig
+                    if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_far'}}>1) {
+                    
                         $color='red';
                         
-                        if (!exists $errors{main::__('No rooster in cage')}) {
-                            $errors{main::__('No rooster in cage')}=[$cage];
+                        if (!exists $errors{main::__('To many rooster-lines in cage')}) {
+                            $errors{main::__('To many rooster-lines in cage')}=[$cage];
                         }
                         else {
-                            push(@{ $errors{main::__('No rooster in cage')} },$cage);
+                            push(@{ $errors{main::__('To many rooster-lines in cage')} },$cage);
                         }
                     }
-                }
-
-                #-- check auf zu viele Hähne im Käfig
-                if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_far'}}>1) {
-                
-                    $color='red';
                     
-                    if (!exists $errors{main::__('To many rooster-lines in cage')}) {
-                        $errors{main::__('To many rooster-lines in cage')}=[$cage];
+                    my $diff;
+
+                    $color ='red' if (!$hs_check->{$breed}->{'far_sire'}->[$i]);
+                    $colord='red' if (!$hs_check->{$breed}->{'far_dam'}->[$i]);
+
+                    if ((keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_animals'}}==0) 
+                            or
+                        (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_animals'}}>1)) {
+                        $diff=-1;
                     }
                     else {
-                        push(@{ $errors{main::__('To many rooster-lines in cage')} },$cage);
+                        $diff=$hs_check->{$breed}->{'far_dam'}->[$i]-$hs_check->{$breed}->{'far_sire'}->[$i];
                     }
-                }
-                
-                my $diff;
 
-                $color ='red' if (!$hs_check->{$breed}->{'far_sire'}->[$i]);
-                $colord='red' if (!$hs_check->{$breed}->{'far_dam'}->[$i]);
-
-                if ((keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_animals'}}==0) 
-                        or
-                    (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'sire_animals'}}>1)) {
-                    $diff=-1;
-                }
-                else {
-                    $diff=$hs_check->{$breed}->{'far_dam'}->[$i]-$hs_check->{$breed}->{'far_sire'}->[$i];
-                }
-
-                if ( $diff<0) {
-                    if (abs($diff) ne $dks) {
-                        $color='red';
-                    }
-                }
-                else {
-                    if ($diff ne $dgs) {
-                        $color='red';
-                    }
-                }
-                
-                #-- Großvater des Vaters muss gleich Großvater der Mutterlinie sein.  
-                #-- wenn möglicher Fehler im Rotationsschema 
-                if ($color eq 'red') {
-            
-                    my $sire_sire= KeyMaxValueHash( $hs_check->{$breed}->{'cages'}->{$cage}->{'sire_sire'} );
-
-                    #--- das gleiche auf der Mutterseite
-                    my $dam_sire= KeyMaxValueHash( $hs_check->{$breed}->{'cages'}->{$cage}->{'dam_sire'} );
-
-                    if ($sire_sire ne $dam_sire) {
-                        $errors{main::__('Possible error in rotationscheme')}=[''];
-                        $color='orange';
-                    }
-                }
-
-                #-- check auf kein Hahn im Käfig
-                if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'dam_animals'}}<2) {
-                    
-                    $colord='red';
-                    
-                    if (!exists $errors{main::__('To less hens in cage')}) {
-                        $errors{main::__('To less hens in cage')}=[$cage];
+                    if ( $diff<0) {
+                        if (abs($diff) ne $dks) {
+                            $color='red';
+                        }
                     }
                     else {
-                        push(@{ $errors{main::__('To less hens in cage')} },$cage);
+                        if ($diff ne $dgs) {
+                            $color='red';
+                        }
+                    }
+                    
+                    #-- Großvater des Vaters muss gleich Großvater der Mutterlinie sein.  
+                    #-- wenn möglicher Fehler im Rotationsschema 
+                    if ($color eq 'red') {
+                
+                        my $sire_sire= KeyMaxValueHash( $hs_check->{$breed}->{'cages'}->{$cage}->{'sire_sire'} );
+
+                        #--- das gleiche auf der Mutterseite
+                        my $dam_sire= KeyMaxValueHash( $hs_check->{$breed}->{'cages'}->{$cage}->{'dam_sire'} );
+
+                        if ($sire_sire ne $dam_sire) {
+                            $errors{main::__('Possible error in rotationscheme')}=[''];
+                            $color='orange';
+                        }
+                    }
+
+                    #-- check auf kein Hahn im Käfig
+                    if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'dam_animals'}}<2) {
+                        
+                        $colord='red';
+                        
+                        if (!exists $errors{main::__('To less hens in cage')}) {
+                            $errors{main::__('To less hens in cage')}=[$cage];
+                        }
+                        else {
+                            push(@{ $errors{main::__('To less hens in cage')} },$cage);
+                        }
+                    }
+
+                    #-- check auf zu viele Hähne im Käfig
+                    if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'dam_far'}}>1) {
+                        
+                        $colord='red';
+                        
+                        if (!exists $errors{main::__('To many hen-lines in cage')}) {
+                            $errors{main::__('To many hen-lines in cage')}=[$cage];
+                        }
+                        else {
+                            push(@{ $errors{main::__('To many hen-lines in cage')} },$cage);
+                        }
+
                     }
                 }
 
-                #-- check auf zu viele Hähne im Käfig
-                if (keys %{$hs_check->{$breed}->{'cages'}->{$cage}->{'dam_far'}}>1) {
-                    
-                    $colord='red';
-                    
-                    if (!exists $errors{main::__('To many hen-lines in cage')}) {
-                        $errors{main::__('To many hen-lines in cage')}=[$cage];
-                    }
-                    else {
-                        push(@{ $errors{main::__('To many hen-lines in cage')} },$cage);
-                    }
+                #-- initialisieren
+                $hs_check->{$breed}->{'far_cage'}->[$i][$j]='-' if (!$hs_check->{$breed}->{'far_cage'}->[$i][$j]);
+                $hs_check->{$breed}->{'far_sire'}->[$i]='-' if (!$hs_check->{$breed}->{'far_sire'}->[$i]);
+                $hs_check->{$breed}->{'far_dam'}->[$i]='-' if (!$hs_check->{$breed}->{'far_dam'}->[$i]);
 
-                }
-            }
-
-            #-- initialisieren
-            $hs_check->{$breed}->{'far_cage'}->[$i]='-' if (!$hs_check->{$breed}->{'far_cage'}->[$i]);
-            $hs_check->{$breed}->{'far_sire'}->[$i]='-' if (!$hs_check->{$breed}->{'far_sire'}->[$i]);
-            $hs_check->{$breed}->{'far_dam'}->[$i]='-' if (!$hs_check->{$breed}->{'far_dam'}->[$i]);
-
-            $row1.='<td>'.$hs_check->{$breed}->{'far_cage'}->[$i].'</td>';
-            $row2.='<td style="background-color:'.$color.'">'.$hs_check->{$breed}->{'far_sire'}->[$i].'</td>';
-            $row3.='<td style="background-color:'.$colord.'">'.$hs_check->{$breed}->{'far_dam'}->[$i].'</td>';
+                $row1.='<td>'.$hs_check->{$breed}->{'far_cage'}->[$i][$j].'</td>';
+                $row2.='<td style="background-color:'.$color.'">'.$hs_check->{$breed}->{'far_sire'}->[$i].'</td>';
+                $row3.='<td style="background-color:'.$colord.'">'.$hs_check->{$breed}->{'far_dam'}->[$i].'</td>';
+            }    
         }
 
         foreach my $cage (keys %{$hs_check->{ $breed }->{'cages'}} ) {
