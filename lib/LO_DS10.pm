@@ -1,6 +1,6 @@
 #####################################################################
 # load object: LO_DS10
-# $Id: LO_DS10.pm,v 1.20 2022/04/26 13:14:44 lfgroene Exp $
+# $Id: LO_DS10.pm,v 1.21 2022/04/27 09:12:52 lfgroene Exp $
 #####################################################################
 # This is the Load Object to close an open unit.
 #
@@ -68,7 +68,7 @@ sub LO_DS10 {
               'Bak'         => [],
             };
 
-    ($json) = chick::CheckStatusDS($apiis,$json,$breed);
+    ($json) = chick::CheckStatusDS($apiis,$json,$breed,'DS10');
 
     if (exists $json->{'Critical'}) {
    
@@ -261,7 +261,7 @@ EXIT:
          
         if ($fileimport) {
             my $tbreed='';
-            $tbreed=join('+',@breeds) if ( @breeds);
+            $tbreed=join('+',sort @breeds) if ( @breeds);
 
             chick::SaveDatabase( $apiis, 'DS10', $tbreed, $birthyear, $year) ;
         }

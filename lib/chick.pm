@@ -39,6 +39,7 @@ sub CheckStatusDS {
     my $apiis= shift;
     my $json = shift;
     my $breed= shift;
+    my $ls   = shift;
 
     #-- Get Status
     my $sql1="select z0.ext_breed,  z1.nanimal as aaac, z2.nanimal as aaacwe, z3.nanimal as aaacwewp, z4.nanimal as aaa
@@ -65,8 +66,8 @@ left outer join
     # Auslesen des Ergebnisses der Datenbankabfrage
     
     my %hs_check;
-    my $row1='';
     my %ds_status;
+    my %ds_readyfor;
 
     while ( my $q = $sql_ref2->handle->fetch ) {
 
@@ -116,10 +117,15 @@ left outer join
     $json->{'Before'}.="<TR><th>".main::__('Breed')."</th><th>".main::__('DS06')."</th><th>".main::__('DS020304')."</th><th>".main::__('DS05')."</th><th>".main::__('DS10')."</th><th>".main::__('finished')."</th><th>".main::__('ready for')."</th></TR>";
 
     foreach (sort keys %hs_check) {
+
+        #-- undef in '' 
+        map { $_='' if (!$_) } @{$hs_check{$_}};
+
         $json->{'Before'}.='<TR><td>'.join('</td><td>',@{$hs_check{$_}}).'</td></TR>';    
 
         #-- check, ob alle Rassen den Ladestrom abgeschlossen haben 
         $ds_status{$hs_check{$_}->[5]}=1;
+        $ds_readyfor{$hs_check{$_}->[6]}=1;
     }
     
     $json->{'Before'}.='</table><p>';
@@ -130,9 +136,22 @@ left outer join
     $json->{'Before'}.=main::__('- DS020304: there are active animals in active cages').'<br>';
     $json->{'Before'}.=main::__('- DS05: there are hatched eggs/chicken from active cages').'<br></small>';
 
-    $json->{'Critical'}=undef if ((scalar keys %ds_status) == 1);
+    #-- check, ob aktueller Ladestrom dem Status der DB entspricht
+    #-- $ls ist nur gleich, wenn genau einer DS drin ist => geht nur rein, wenn alle Rassen in Ordnung 
+    if (((scalar keys %ds_readyfor) == 1) and ($ls eq join('', keys %ds_readyfor) )) {
+       my $a=1; 
+    }
+    
+    #-- wenn bereits erfolgter DS erneut geladen werden soll, die Rasse aber alle in Ordnung sind, 
+    #-- dann unbestimmten kritischen Fehler auslösen. Es erfolgt dann keine weitere Aktion, die Buttons werden nicht gezeigt 
+    elsif (((scalar keys %ds_status) == 1) and ($ls eq join('', keys %ds_status) )) {
+        $json->{'Critical'}=undef if ((scalar keys %ds_status) == 1);
+    }
+    else {
+        $json->{'Critical'}=[[main::__("Confusion in datastreams. 1st: Not all breeds have the same status. 2nd: The current datastream doesn't correspond with 'read for' status of the database.")]];
+    }
 
-    return ($json); 
+    return ($json, $hs_check); 
 }
 1;
 

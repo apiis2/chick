@@ -863,7 +863,7 @@ EXIT:
 
             if ($fileimport) {
                 my $tbreed='';
-                $tbreed=join('+',keys %breeds) if ( %breeds);
+                $tbreed=join('+', sort keys %breeds) if ( %breeds);
 
                 chick::SaveDatabase( $apiis, 'DS05', $tbreed, $birthyear, $curryear, $fileimport) ;
             }
