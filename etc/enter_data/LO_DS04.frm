@@ -3,9 +3,7 @@
 [  <!ENTITY NavigationButtons_Fields SYSTEM "http://chick.local/etc/navigationbuttons.xml">
   <!ENTITY ActionButtons_Fields     SYSTEM "http://chick.local/etc/actionbuttons.xml">
   <!ENTITY StatusLine_Block         SYSTEM "http://chick.local/etc/statusbar.xml">
-  <!ENTITY DumpButton_Block         SYSTEM "http://chick.local/etc/dumpbutton_block.xml">
   <!ENTITY StatusLine2_Block        SYSTEM "http://chick.local/etc/statusbar.xml">
-  <!ENTITY CallForm_Block           SYSTEM "http://chick.local/etc/callform_button_block.xml">
 ]>
 <Form Name="FORM_1418894848">
   <General Name="G861.frm" StyleSheet="/etc/apiis.css" Description="Form"/>

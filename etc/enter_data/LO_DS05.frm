@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Form PUBLIC "1" "http://chick.local/etc/form2.dtd"[  <!ENTITY NavigationButtons_Fields SYSTEM "http://chick.local/etc/navigationbuttons.xml">
-  <!ENTITY ActionButtons_Fields     SYSTEM "http://chick.local/etc/actionbuttons.xml">
+<!DOCTYPE Form PUBLIC "1" "http://chick.zwisss.net/etc/form2.dtd"
+[ <!ENTITY NavigationButtons_Fields SYSTEM "http://chick.local/etc/navigationbuttons.xml">
   <!ENTITY StatusLine_Block         SYSTEM "http://chick.local/etc/statusbar.xml">
-  <!ENTITY DumpButton_Block         SYSTEM "http://chick.local/etc/dumpbutton_block.xml">
-  <!ENTITY StatusLine2_Block        SYSTEM "http://chick.local/etc/statusbar.xml">
-  <!ENTITY CallForm_Block           SYSTEM "http://chick.local/etc/callform_button_block.xml">
 ]>
 <Form Name="F23a">
   <General Name="General_515" StyleSheet="/etc/apiis.css" Description="Tier"/>
@@ -12,7 +9,7 @@
   <Block Name="Block_488" Description="Ladestrom - Tier" >
     <DataSource Name="DataSource_493" >
       <none/>
-      <Parameter Name="Parameter1" Key="LO" Value="LO_DS05"/>
+      <Parameter Name="Parameter1" Key="LO" Value="LO_DS05"/> 
     </DataSource>
 
     <Label Name="Label_490" Content="__('Ladestrom DS05'):">

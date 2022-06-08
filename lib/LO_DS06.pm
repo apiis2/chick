@@ -684,6 +684,12 @@ sub LO_DS06 {
             $args->{$_}=$hs_record->{ 'Data' }->{$_}->[0];
         }
 
+#-- debug
+        if ($args->{'ext_breed'} eq 'ISL' ) { 
+
+           my $a=1;    
+        }
+
         my $cnt++;
 
         #-- several checks to cage
@@ -698,10 +704,10 @@ sub LO_DS06 {
             }
             else {
                 if ( $hs_pedigree->{ $args->{'ext_animal'} }->{'breed'} ne $args->{'ext_breed'}) {
-                    push(@{$hs_record->{ 'Info'}},main::__("Animal [_1] has another breed in database. ", $args->{'ext_animal'}));
+                    push(@{$hs_record->{ 'Info'}},main::__("Animal [_1] has another breed ([_2]) in database. ", $args->{'ext_animal'},$hs_pedigree->{ $args->{'ext_animal'} }->{'breed'}));
                 }
                 if ( $hs_pedigree->{ $args->{'ext_animal'} }->{'sex'} ne $args->{'ext_sex'}) {
-                    push(@{$hs_record->{ 'Warn'}},main::__("Animal [_1] has another sex in database. ", $args->{'ext_animal'}));
+                    push(@{$hs_record->{ 'Warn'}},main::__("Animal [_1] has another sex ([_2]) in database. ", $args->{'ext_animal'},$hs_pedigree->{ $args->{'ext_animal'} }->{'sex'}));
                 }
             }
         }
@@ -735,9 +741,11 @@ sub LO_DS06 {
         if (exists $hs_cage_null{$args->{'ext_breed'}}->{$args->{'ext_animal'}}) {
             push(@{$hs_cage_null{$args->{'ext_breed'}}->{$args->{'ext_animal'}}},$args->{'ext_cage'});
         }
-        else {
-            push(@{$hs_record->{ 'Info'}},main::__('Animal [_1] does not exists in database. ', $args->{'ext_animal'} ));
-        }
+#-- ist nicht ganz korrekt, weil Tiere mit falscher Rasse im Hash nicht gefunden werden und dann als nicht existent 
+#-- deklariert werden, obwohl sie ja da sind, nur nicht zugeordnet werden können        
+#        else {
+#            push(@{$hs_record->{ 'Info'}},main::__('Animal [_1] does not exists in database. ', $args->{'ext_animal'} ));
+#        }
         
         goto EXIT if ($#{$hs_record->{ 'Info'}}>-1);
 
