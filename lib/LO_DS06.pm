@@ -173,6 +173,7 @@ sub LO_DS06 {
             #-- Check auf gültigen Ladestrom Spalte 2 Geschlecht=1 oder 1 und Rasse muss Buchstaben enthalten 
             if (($data[4]!~/^[^0-9].*/) or ($data[2]!~/^(1|2)$/)) {
                 print __('Wrong dataset format for LO_DS65. Column 3 has to be sex as 1 or 2 and column 5 is defined as breed with a character at the first place');
+                print '<p><p>'.join(' ; ', @data);
                 return;
             }
             

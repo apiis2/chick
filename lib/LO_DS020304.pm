@@ -168,6 +168,7 @@ sub LO_DS020304 {
             #-- Check auf gültigen Ladestrom Spalte 2 Geschlecht=1 oder 1 und Rasse muss Buchstaben enthalten 
             if ((($data[0]!~/^\w+[0-9]*/) or $data[1]!~/^[0-9].*/) or ($data[2]!~/^[0-9].*$/) or ($data[8]!~/^.+\..+\..+$/) ) {
                 print __('Wrong dataset format for LO_DS020304. It has to be: rase;Far nummer (ST);bur nummer;velg ny generasjon;dato innlagte egg;Innlagte egg;Til Klekking ;Klekka;Dato klekka and it is [_1]', $_);
+                print '<p><p>'.join(' ; ', @data);
                 return;
             }
 

@@ -204,7 +204,7 @@ Debug:
             $rec++;
 
             push( @{ $json->{ 'Bak' } },$_); 
-            
+
             #-- Zeilenumbruch entfernen
             $_ =~ s/\r|\n//g;
 
@@ -230,8 +230,9 @@ Debug:
             next if ( !$data[ 2 ] and !$data[4] );
 
             #-- Check auf gültigen Ladestrom Spalte 2 Geschlecht=1 oder 1 und Rasse muss Buchstaben enthalten 
-            if (($data[3]!~/^[^0-9].*/) or ($data[1]!~/^(1|2)$/)) {
-                print __('Wrong dataset format for LO_DS05. Column 2 has to be sex as 1 or 2 and column 3 is defined as breed with a character at the first place');
+            if (($data[3]!~/^[^0-9]{2}/) or ($data[1]!~/^(1|2)$/)) {
+                print __('Wrong dataset format for LO_DS05. Column 2 has to be sex as 1 or 2 and column 4 is defined as breed with a character at the first place');
+                print '<p><p>'.join(' ; ', @data);
                 return;
             }
 
