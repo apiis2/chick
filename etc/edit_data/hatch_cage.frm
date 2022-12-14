@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Form PUBLIC "1" "form.dtd">
+<!DOCTYPE Form PUBLIC "1" "form2.dtd"
+[ <!ENTITY NavigationButtons_Fields SYSTEM "/home/zwisss/database_stuff/apiis/etc/navigationbuttons.xml">
+  <!ENTITY ActionButtons_Fields     SYSTEM "/home/zwisss/database_stuff/apiis/etc/actionbuttons.xml">
+  <!ENTITY StatusLine_Block         SYSTEM "/home/zwisss/database_stuff/apiis/etc/statusbar.xml">
+  <!ENTITY DumpButton_Block         SYSTEM "/home/zwisss/database_stuff/apiis/etc/dumpbutton_block.xml">
+  <!ENTITY StatusLine2_Block        SYSTEM "/home/zwisss/database_stuff/apiis/etc/statusbar.xml">
+  <!ENTITY CallForm_Block           SYSTEM "/home/zwisss/database_stuff/apiis/etc/callform_button_block.xml">
+]>
 <Form Name="FORM_1418894848">
   <General Name="G861.frm" StyleSheet="/etc/apiis.css" Description="Form"/>
 

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE Form PUBLIC "1" "http://chick.zwisss.net/etc/form2.dtd"
-[  <!ENTITY NavigationButtons_Fields SYSTEM "http://chick.zwisss.net/etc/navigationbuttons.xml">
-  <!ENTITY ActionButtons_Fields     SYSTEM "http://chick.zwisss.net/etc/actionbuttons.xml">
-  <!ENTITY StatusLine_Block         SYSTEM "http://chick.zwisss.net/etc/statusbar.xml">
-  <!ENTITY DumpButton_Block         SYSTEM "http://chick.zwisss.net/etc/dumpbutton_block.xml">
-  <!ENTITY StatusLine2_Block        SYSTEM "http://chick.zwisss.net/etc/statusbar.xml">
-  <!ENTITY CallForm_Block           SYSTEM "http://chick.zwisss.net/etc/callform_button_block.xml">
+<!DOCTYPE Form PUBLIC "1" "form2.dtd"
+[  <!ENTITY NavigationButtons_Fields SYSTEM "/home/zwisss/database_stuff/apiis/etc/navigationbuttons.xml">
+  <!ENTITY ActionButtons_Fields     SYSTEM "/home/zwisss/database_stuff/apiis/etc//actionbuttons.xml">
+  <!ENTITY StatusLine_Block         SYSTEM "/home/zwisss/database_stuff/apiis/etc//statusbar.xml">
+  <!ENTITY DumpButton_Block         SYSTEM "/home/zwisss/database_stuff/apiis/etc//dumpbutton_block.xml">
+  <!ENTITY StatusLine2_Block        SYSTEM "/home/zwisss/database_stuff/apiis/etc//statusbar.xml">
+  <!ENTITY CallForm_Block           SYSTEM "/home/zwisss/database_stuff/apiis/etc//callform_button_block.xml">
 ]>
 <Form Name="F7">
   <General Name="G239" StyleSheet="/etc/apiis.css" Description="__('Create/modify event')"/>

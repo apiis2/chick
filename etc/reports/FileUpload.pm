@@ -249,7 +249,7 @@ sub FileUpload {
 
         print '</table>';
         print '<p>';
-        print '<a style="background-color:lightgray;border:3px outset darkgray" href="/cgi-bin/GUI?user=lfgroene&pw_user=agrum1&m=chick&o=htm2htm&g=/etc/reports/FileUpload.rpt&f=1&user=apiis&importfilter='.$importfilter.'&filename='.$filename.'&onlycheck=off&Field_514=Datei hochladen'.$vbreed.'&__form=/etc/reports/FileUpload.rpt">'.main::__('Upload file and fill database').'</a>';
+#        print '<a style="background-color:lightgray;border:3px outset darkgray" href="/cgi-bin/GUI?user=lfgroene&pw_user=agrum1&m=chick&o=htm2htm&g=/etc/reports/FileUpload.rpt&f=1&user=apiis&importfilter='.$importfilter.'&filename='.$filename.'&onlycheck=off&Field_514=Datei hochladen'.$vbreed.'&__form=/etc/reports/FileUpload.rpt">'.main::__('Upload file and fill database').'</a>';
         
         print '<h4>'.main::__('Result of loading:').'</h4><p>';
         print '<table>';
