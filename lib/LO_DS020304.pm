@@ -154,7 +154,7 @@ sub LO_DS020304 {
             my $hs = {};
 
             #-- skip first record 
-            next if (lc($_)=~/rase.*far.*bur/);
+            next if (lc($_)=~/rase.*stamme.*antal/);
 
             @data = split(';', $_ ,10);
 
