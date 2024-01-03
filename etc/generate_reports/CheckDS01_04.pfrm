@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE Form PUBLIC "1" "form2.dtd">
+<Form Name="FPCheckDS01-04">
+  <General Name="General_515" StyleSheet="/etc/apiis.css" Description="CheckDS01-04"/>
+
+  <Block Name="Block_488" Description="CheckDS01-04" NavigationBar="no">
+    <DataSource Name="DataSource_493a">
+      <none/>
+    </DataSource>
+
+    <Label Name="Label_490" Content="__('CheckDS01-04')">
+      <Position Column="0-1" Position="absolute" Row="0"/>
+      <Text FontSize="24px" TextDecoration="underline"/>
+      <Format PaddingBottom="10px"/>
+    </Label>
+
+    <Label Name="Label_4911" Content="__('Order').:">
+      <Position Column="0" Position="absolute" Row="1"/>
+    </Label>
+    <Field Name="order">
+      <DataSource Name="DataSource_1015a">
+       <Sql Statement="SELECT 'far_id' as sort union select 'cagenumber' as sort"/>
+      </DataSource>
+      <ScrollingList Size="1" />  
+      <Position Column="1" Position="absolute" Row="1"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format/>    
+    </Field>
+
+    <Field Name="Field_514">
+      <Button ButtonLabel="__('CheckDS01-04 erstellen')" URL="/etc/reports/CheckDS01-04.rpt" Command="do_exit"/>
+      <Position Column="0-3" Position="absolute" Row="4"/>
+      <Miscellaneous/>
+      <Text/>
+      <Color/>
+      <Format MarginTop="10px"/>
+      
+    </Field>
+
+    <Color BackGround="#f0f0f0"/>
+    <Format BorderStyle="ridge" BorderColor="#f0f0f0" Padding="10px"/>
+
+  </Block>
+</Form>

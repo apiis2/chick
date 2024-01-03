@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE report SYSTEM "report.dtd" -->
+<Report>
+  <General
+    Name="CheckDS01_04" 
+    UseForm="/etc/generate_reports/CheckDS01_04.pfrm"
+    StrictParameter="yes"
+    DataSource="CheckDS01_04({order})"
+    StyleSheet="/etc/apiis.css" 
+    PageFooter="All_Pages" PageHeader="All_Pages"/>
+
+ <GUIHeader Name="GUIHeader_50">
+     <Text Column="1" Content="FarID" Name="Text_50" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="2" Content="CageNumber" Name="Text_51" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="3" Content="CollectedEggs" Name="Text_52" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="4" Content="IncubatedEggs" Name="Text_53" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="5" Content="HatchedEggs" Name="Text_54" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="6" Content="HatchDt" Name="Text_55" Row="1" FontSize="24px" PaddingLeft="10px"/>
+     <Text Column="7" Content="Event_dt" Name="Text_56" Row="1" FontSize="24px" PaddingLeft="10px"/>
+ </GUIHeader>
+  <Detail Name="Detail_10">
+    <Data Column="1" Content="[FarID]" Name="Data_13" Row="1" FontFamily="Courier"  PaddingLeft="10px"/>
+    <Data Column="2" Content="[CageNumber]" Name="Data_14" Row="1" FontFamily="Courier"  PaddingLeft="10px"/>
+    <Data Column="3" Content="[CollectedEggs]" Name="Data_15" Row="1" FontFamily="Courier"  PaddingLeft="10px" TextAlign="center"/>
+    <Data Column="4" Content="[IncubatedEggs]" Name="Data_16" Row="1" FontFamily="Courier"  PaddingLeft="10px" TextAlign="center"/>
+    <Data Column="5" Content="[HatchedEggs]" Name="Data_17" Row="1" FontFamily="Courier"  PaddingLeft="10px"/>
+    <Data Column="6" Content="[HatchDt]" Name="Data_18" Row="1" FontFamily="Courier"  PaddingLeft="10px"/>
+    <Data Column="7" Content="[EventDt]" Name="Data_19" Row="1" FontFamily="Courier" PaddingLeft="10px"/>
+  </Detail>
+</Report>
