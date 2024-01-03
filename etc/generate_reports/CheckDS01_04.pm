@@ -3,15 +3,10 @@ sub CheckDS01_04 {
 
     my ($self,$order)=@_;
 
-    $selection="2" if (!$selection);
-    my $data;
-    my $structure;
-    my $birthyear;
     my @ar_data;
-    my $vtable=' animal ';
     my $sql;
 
-    if ($order eq 'far_id') {
+    if ($order eq 'FarID') {
         $sql="select far_id, ext_id as cage_no, collected_eggs, incubated_eggs, hatched_eggs, hatch_dt, event_dt from hatch_cage a inner join entry_unit b on a.db_cage=b.db_unit inner join event c on a.db_event=c.db_event order by substring(far_id from '(.+):::'),substring(far_id from ':::(.+)')::numeric ";
     }
     else {

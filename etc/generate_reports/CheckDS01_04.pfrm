@@ -11,7 +11,7 @@
     <Label Name="Label_490" Content="__('CheckDS01-04')">
       <Position Column="0-1" Position="absolute" Row="0"/>
       <Text FontSize="24px" TextDecoration="underline"/>
-      <Format PaddingBottom="10px"/>
+      <Format PaddingBottom="20px"/>
     </Label>
 
     <Label Name="Label_4911" Content="__('Order').:">
@@ -19,9 +19,9 @@
     </Label>
     <Field Name="order">
       <DataSource Name="DataSource_1015a">
-       <Sql Statement="SELECT 'far_id' as sort union select 'cagenumber' as sort"/>
+       <Sql Statement="SELECT 'FarID' as sort union select 'CageNumber' as sort"/>
       </DataSource>
-      <ScrollingList Size="1" />  
+      <ScrollingList Size="1" OnlyListEntries="yes" DefaultField="FarID" />  
       <Position Column="1" Position="absolute" Row="1"/>
       <Miscellaneous/>
       <Text/>
@@ -30,7 +30,7 @@
     </Field>
 
     <Field Name="Field_514">
-      <Button ButtonLabel="__('CheckDS01-04 erstellen')" URL="/etc/reports/CheckDS01-04.rpt" Command="do_exit"/>
+      <Button ButtonLabel="__('Create CheckDS01-04')" URL="/etc/reports/CheckDS01-04.rpt" Command="do_exit"/>
       <Position Column="0-3" Position="absolute" Row="4"/>
       <Miscellaneous/>
       <Text/>
