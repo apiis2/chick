@@ -19,9 +19,9 @@ sub CagesBook {
     my $hscheck={};
 
 #-- für test;
-    $breed='NB8';
-    $year='2019';
-    $ext_id=undef;
+#    $breed='NB8';
+#    $year='2019';
+#    $ext_id=undef;
 
     my $sql="Set datestyle to 'german';";
     my $sql_ref = $apiis->DataBase->sys_sql($sql);
