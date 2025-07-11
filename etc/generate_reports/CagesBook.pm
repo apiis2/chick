@@ -308,7 +308,7 @@ sub CagesBook {
     $config->{'lines'}=$hsline;
 
     #-- for testing 
-    pdf($self, \@data, $config);
+    #pdf($self, \@data, $config);
 ERR:
 
     return \@data, $config;
